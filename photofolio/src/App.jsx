@@ -4,7 +4,6 @@ import { Alert } from '@mui/material';
 import {
   BrowserRouter as Router,
   Switch,
-  // Link,
   Route,
   Redirect
 } from 'react-router-dom';
@@ -35,12 +34,7 @@ function App() {
             Your post has been successfully created!
           </Alert>
         )}
-        <Navbar
-          postModalIsOpen={postModalIsOpen}
-          setPostModalOpen={setPostModalOpen}
-          closePostModal={closePostModal}
-          setAlert={setAlert}
-        />
+        <Navbar setPostModalOpen={setPostModalOpen} />
         <Switch>
           <Route exact path="/">
             <Redirect to="/login" />

@@ -1,39 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  // BrowserRouter as Router,
-  // Switch,
-  Link
-  // Route,
-  // Redirect
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Navbar.css';
-// import Button from '@mui/material/Button';
 import homeIcon from '../icons/Home.svg';
 import newIcon from '../icons/New.svg';
 import profileIcon from '../icons/Person.svg';
 import logoutIcon from '../icons/Arrow_Export.svg';
-// import HomePage from './HomePage';
-// import ProfilePage from './ProfilePage';
-// import Login from './Login';
-// import Register from './Register';
 
 function Navbar(props) {
   Navbar.propTypes = {
-    // closePostModal: PropTypes.func.isRequired,
-    // postModalIsOpen: PropTypes.bool.isRequired,
     setPostModalOpen: PropTypes.func.isRequired
-    // setAlert: PropTypes.func.isRequired
   };
 
-  const {
-    // closePostModal, postModalIsOpen,
-    setPostModalOpen
-    // setAlert
-  } = props;
+  const { setPostModalOpen } = props;
 
   return (
-    // <Router>
     <div>
       <nav className="Navbar">
         <ul>
@@ -77,7 +58,6 @@ function Navbar(props) {
         </ul>
       </nav>
     </div>
-    // </Router>
   );
 }
 
