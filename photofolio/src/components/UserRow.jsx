@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { rootUrl } from './Config';
 import axios from '../api/axios';
 
@@ -57,13 +58,19 @@ function UserRow(props) {
     <div className="user-row">
       <div className="container">
         {ring && (
-          <img
-            className="profile-pic profile-pic-ring"
-            src={avatar}
-            alt={name}
-          />
+          <Link to={`/profile/${userId}`}>
+            <img
+              className="profile-pic profile-pic-ring"
+              src={avatar}
+              alt={name}
+            />
+          </Link>
         )}
-        {!ring && <img className="profile-pic" src={avatar} alt={name} />}
+        {!ring && (
+          <Link to={`/profile/${userId}`}>
+            <img className="profile-pic" src={avatar} alt={name} />
+          </Link>
+        )}
         <div className="username">{name}</div>
         {showFollow && (
           <Button
