@@ -20,10 +20,9 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get('http://localhost:3500/account');
-      const example = response.data;
+      const response = await axios.get(`/account/username=${user}&password=${pwd}`);
+      const example = response.data.data;
       console.log(example);
-      const result = example.filter((x) => x.user === user && x.pwd === pwd);
       console.log(result);
       setUser('');
       setPwd('');
