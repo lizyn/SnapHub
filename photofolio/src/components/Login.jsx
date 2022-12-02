@@ -23,7 +23,6 @@ function Login() {
       const response = await axios.get(`/account/username=${user}&password=${pwd}`);
       const example = response.data.data;
       console.log(example);
-      console.log(result);
       setUser('');
       setPwd('');
       setSuccess(true);
