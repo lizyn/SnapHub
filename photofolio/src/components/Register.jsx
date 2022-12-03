@@ -59,7 +59,7 @@ function Register() {
       return;
     }
     try {
-      // const response = await axios.post('http://localhost:3500/account',{ user, pwd });
+      const response = await axios.post('/users',{ user, pwd });
       console.log(JSON.stringify({ user, pwd }));
       setSuccess(true);
     } catch (err) {

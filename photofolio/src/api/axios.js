@@ -8,7 +8,7 @@ const baseURL = 'http://localhost:3500';
 export const fetchPosts = async () => {
   try {
     const response = await axios.get(`${baseURL}/posts`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return false;
@@ -22,7 +22,7 @@ export const fetchPhotos = async (userId) => {
   }
   try {
     const response = await axios.get(`${baseURL}${urlTail}`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return err;
@@ -36,7 +36,7 @@ export const fetchUsers = async (userId) => {
   }
   try {
     const response = await axios.get(URL);
-    return response.data;
+    return response.data.data;
     // the data is stored in the mockData
     // field of the response
   } catch (err) {
@@ -52,7 +52,7 @@ export const fetchUserPost = async (userId) => {
   }
   try {
     const response = await axios.get(URL);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return err;
@@ -62,7 +62,7 @@ export const fetchUserPost = async (userId) => {
 export const fetchComments = async (postId) => {
   try {
     const response = await axios.get(`${baseURL}/posts/${postId}/comments`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return err;
@@ -76,7 +76,7 @@ export const likePosts = async (postId, likeUpdate) => {
       ...currentData.data,
       likes: likeUpdate
     });
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return err;
@@ -91,7 +91,7 @@ export const createComment = async (userId, postId, text) => {
       postId,
       text
     });
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return err;
@@ -106,7 +106,7 @@ export const addCommentToPost = async (userId, postId, text) => {
       postId,
       text
     });
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error(err);
     return err;
