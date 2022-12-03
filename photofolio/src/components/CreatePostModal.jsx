@@ -93,6 +93,7 @@ export default function CreatePostModal(props) {
   };
 
   const handleSubmit = async () => {
+    setAlert('submitting-post');
     try {
       const res = await uploadPost();
       if (res instanceof Error) throw res;
@@ -100,13 +101,14 @@ export default function CreatePostModal(props) {
       setTitle('');
       setCaption('');
       setFile();
-      setAlert(true);
-      setTimeout(() => {
-        setAlert(false);
-      }, 5000);
+      setAlert('created-post');
     } catch (err) {
+      setAlert('error');
       console.log(err);
-      // return err;
+    } finally {
+      setTimeout(() => {
+        setAlert('');
+      }, 5000);
     }
   };
 
