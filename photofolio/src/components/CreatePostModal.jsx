@@ -47,7 +47,7 @@ export default function CreatePostModal(props) {
   const [fileType, setFileType] = useState('img');
   const user = {
     name: 'Tatiana Dokidis',
-    userId: 1
+    userId: '638682d7b47712e0d260ce8b'
   };
   const { open, closeModal, setAlert } = props;
 
@@ -77,8 +77,8 @@ export default function CreatePostModal(props) {
       formData.append(key, postParams[key]);
     });
     try {
-      console.log(file);
-      console.log(formData);
+      // console.log(file);
+      // console.log(formData);
       const newPost = await axios.post(`${rootUrl}/posts/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
