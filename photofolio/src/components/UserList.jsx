@@ -18,6 +18,7 @@ function UserList() {
         firstName: '',
         lastName: '',
         id: `${10000 + index}`
+        showFollow: false
       });
     }
     return dummyUsers;
@@ -51,7 +52,7 @@ function UserList() {
         avatar={user.avatar}
         name={`${user.firstName} ${user.lastName}`}
         userId={user._id}
-        showFollow
+        showFollow={user.showFollow !== false}
       />
     </div>
   ));
