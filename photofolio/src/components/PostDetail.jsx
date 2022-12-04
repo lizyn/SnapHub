@@ -47,14 +47,15 @@ function PostDetail(props) {
     title: PropTypes.string.isRequired,
     img: PropTypes.string,
     avatar: PropTypes.string,
-    likes: PropTypes.number.isRequired,
+    likes: PropTypes.number,
     postId: PropTypes.number.isRequired,
     handlePostChange: PropTypes.func.isRequired
   };
 
   PostDetail.defaultProps = {
     img: '/',
-    avatar: '/'
+    avatar: '/',
+    likes: 0
   };
 
   const {
@@ -93,13 +94,18 @@ function PostDetail(props) {
   const [testState, setTestState] = useState(false);
   // const closePostModal = () => setPostModalOpen(false);
   const closeEditPostModal = () => setTestState(false);
+  let commentlist;
   // const [alert, setAlert] = useState(false);
   // const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
       const commentsData = await fetchComments(postId);
-      setComments(commentsData);
+      console.log(commentsData);
+      if (Array.isArray(commentsData) && commentsData.length >= 0) {
+        commentlist = commentsData;
+        setComments(commentlist);
+      }
     }
     fetchData();
   }, [commentSubmit, postDeleted, commentEdited]);
@@ -138,8 +144,8 @@ function PostDetail(props) {
     }
   };
 
-  const handleCommentDelete = (commentId) => {
-    deleteComment(commentId);
+  const handleCommentDelete = async (commentId) => {
+    await deleteComment(commentId);
     setPostDeleted((currentDelete) => !currentDelete);
   };
 
@@ -151,7 +157,8 @@ function PostDetail(props) {
           key={comment.id}
           userId={comment.userId}
           commentText={comment.text}
-          commentId={comment.id}
+          // eslint-disable-next-line no-underscore-dangle
+          commentId={comment._id}
           commentDel={handleCommentDelete}
           commentEd={setCommentEdited}
         >
@@ -179,7 +186,7 @@ function PostDetail(props) {
 
   const handleCommentSubmit = () => {
     const comment = convertMentionInComment(commentInput);
-    createComment(1, postId, comment);
+    createComment('63899e8d4bd2e0bd159d0e10', postId, comment);
     setCommentSubmit(comment);
     setCommentInput('');
   };

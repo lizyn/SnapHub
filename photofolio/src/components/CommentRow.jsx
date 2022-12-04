@@ -11,9 +11,9 @@ import './CommentRow.css';
 
 function CommentRow(props) {
   CommentRow.propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
     commentText: PropTypes.string.isRequired,
-    commentId: PropTypes.number.isRequired,
+    commentId: PropTypes.string.isRequired,
     commentDel: PropTypes.func.isRequired,
     commentEd: PropTypes.func.isRequired
   };
@@ -22,7 +22,7 @@ function CommentRow(props) {
 
   const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
-  const [commenter, setCommenter] = useState([]);
+  const [commenter, setCommenter] = useState({});
   const [editing, setEditing] = useState(false);
   const [commentEdit, setCommentEdit] = useState(commentText);
 
@@ -30,7 +30,8 @@ function CommentRow(props) {
     setCommenter([]);
     async function fetchCommenterData() {
       const commenters = await fetchUsers(userId);
-      setCommenter(commenters);
+      console.log(commenters[0].avatar);
+      setCommenter(commenters[0]);
     }
     fetchCommenterData();
   }, []);
@@ -50,7 +51,6 @@ function CommentRow(props) {
 
   const handleCommentEdit = (e) => {
     setCommentEdit(e.target.value);
-    console.log(commentEdit);
   };
 
   const handleEditSave = async () => {
