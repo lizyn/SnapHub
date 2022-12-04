@@ -11,7 +11,7 @@ function UserRow(props) {
     name: PropTypes.string.isRequired,
     ring: PropTypes.bool,
     showFollow: PropTypes.bool,
-    userId: PropTypes.number.isRequired
+    userId: PropTypes.string.isRequired
   };
 
   UserRow.defaultProps = {
@@ -23,20 +23,21 @@ function UserRow(props) {
   const { avatar, name, ring, showFollow, userId } = props;
   const [followBtn, setFollowBtn] = useState('outlined');
   const [followed, setFollowed] = useState(false);
-  const [followId, setFollowId] = useState();
-  const currentUserId = 1;
+
+  const currentUserId = '638682d7b47712e0d260ce8b';
   const toggleFollow = async (userIdToFollow, isFollow) => {
     const params = {
-      userId: userIdToFollow,
-      followerId: currentUserId
+      follower: currentUserId,
+      following: userIdToFollow
     };
     try {
       if (isFollow) {
         const response = await axios.post(`${rootUrl}/follows`, params);
-        setFollowId(response.data.id);
         console.log(response);
-      } else if (followId) {
-        const response = await axios.delete(`${rootUrl}/follows/${followId}`);
+      } else {
+        const response = await axios.delete(`${rootUrl}/follows`, {
+          data: params
+        });
         console.log(response);
       }
     } catch (err) {
