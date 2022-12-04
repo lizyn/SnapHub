@@ -17,7 +17,7 @@ function UserList() {
         avatar: defaultAvatar,
         firstName: '',
         lastName: '',
-        id: `${10000 + index}`
+        _id: `${10000 + index}`,
         showFollow: false
       });
     }
