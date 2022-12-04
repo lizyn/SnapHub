@@ -89,9 +89,9 @@ export default function EditPostModal(props) {
     setCaption('');
     setFile();
     uploadPost();
-    setAlert(true);
+    setAlert('updated-post');
     setTimeout(() => {
-      setAlert(false);
+      setAlert('');
     }, 5000);
   };
 

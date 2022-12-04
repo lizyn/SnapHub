@@ -15,6 +15,7 @@ import axios from '../api/axios';
 import UserRow from './UserRow';
 import { rootUrl } from './Config';
 import uploadArrow from '../images/uploadArrow.png';
+// import { uploadFile } from '../api/s3manips';
 
 const theme = createTheme({
   status: {
@@ -46,13 +47,14 @@ export default function CreatePostModal(props) {
   const [fileType, setFileType] = useState('img');
   const user = {
     name: 'Tatiana Dokidis',
-    userId: 1
+    userId: '638682d7b47712e0d260ce8b'
   };
   const { open, closeModal, setAlert } = props;
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
-    setFile(URL.createObjectURL(newFile));
+    console.log(newFile);
+    setFile(newFile);
     if (newFile.type.startsWith('image')) {
       setFileType('img');
       setSubmit(true);
@@ -60,47 +62,54 @@ export default function CreatePostModal(props) {
       setFileType('video');
       setSubmit(true);
     }
+    // console.log(URL.createObjectURL(newFile));
   };
 
   const uploadPost = async () => {
-    // https://example.org/image
+    const formData = new FormData();
+    formData.append('file', file);
+    const postParams = {
+      title,
+      userId: user.userId
+      // photo: file
+    };
+    Object.keys(postParams).forEach((key) => {
+      formData.append(key, postParams[key]);
+    });
     try {
-      const currentPosts = await axios.get(`${rootUrl}/posts`);
-      const currentPhotos = await axios.get(`${rootUrl}/photos`);
-      const id = currentPosts.data.length + 1;
-      const photoId = currentPhotos.data.length + 1;
-      const postParams = {
-        id,
-        title,
-        userId: user.userId,
-        photos: [photoId],
-        likes: 0,
-        comments: []
-      };
-      const photoParams = {
-        id: photoId,
-        alt: title,
-        postId: id,
-        src: 'https://source.unsplash.com/random/600x500/?nature'
-      };
-      const newPost = await axios.post(`${rootUrl}/posts/`, postParams);
-      await axios.post(`${rootUrl}/photos/`, photoParams);
-      return newPost.status;
+      // console.log(file);
+      // console.log(formData);
+      const newPost = await axios.post(`${rootUrl}/posts/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return newPost;
     } catch (err) {
-      return err.message;
+      // console.log(err.message);
+      return err;
+      // console.log(err);
     }
   };
 
-  const handleSubmit = () => {
-    closeModal();
-    setTitle('');
-    setCaption('');
-    setFile();
-    uploadPost();
-    setAlert(true);
-    setTimeout(() => {
-      setAlert(false);
-    }, 5000);
+  const handleSubmit = async () => {
+    setAlert('submitting-post');
+    try {
+      const res = await uploadPost();
+      if (res instanceof Error) throw res;
+      closeModal();
+      setTitle('');
+      setCaption('');
+      setFile();
+      setAlert('created-post');
+    } catch (err) {
+      setAlert('error');
+      console.log(err);
+    } finally {
+      setTimeout(() => {
+        setAlert('');
+      }, 5000);
+    }
   };
 
   return (
@@ -137,7 +146,7 @@ export default function CreatePostModal(props) {
                     <CardMedia
                       component={fileType}
                       controls={fileType === 'video'}
-                      src={file}
+                      src={URL.createObjectURL(file)}
                       style={{
                         height: '100%',
                         maxWidth: '100%',
@@ -237,15 +246,6 @@ export default function CreatePostModal(props) {
                     onChange={(e) => setCaption(e.target.value)}
                   />
                 </Box>
-                {/* <div>
-                  <input
-                    className='modal-input gray-text'
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    onFocus={() => {if (title===defaultTitle) {setTitle("")}}}
-                    onBlur={() => {if (title==="") {setTitle(defaultTitle)}}}
-                  />
-                </div> */}
                 <Box sx={{ zoom: '80%', mt: 1, mb: 8 }}>
                   <TextField
                     id="tags"

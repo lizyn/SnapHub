@@ -16,13 +16,28 @@ import Register from './components/Register';
 function App() {
   const [postModalIsOpen, setPostModalOpen] = useState(false);
   const closePostModal = () => setPostModalOpen(false);
-  const [alert, setAlert] = useState(false);
+  const [alert, setAlert] = useState('');
+  const alertTypes = {
+    'created-post': {
+      svt: 'success',
+      content: 'Your post has been successfully created!'
+    },
+    'updated-post': {
+      svt: 'success',
+      content: 'Your post has been successfully updated!'
+    },
+    'submitting-post': { svt: 'info', content: 'Submitting post…' },
+    error: {
+      svt: 'error',
+      content: 'An error occurred. Please try again later'
+    }
+  };
   return (
     <Router>
       <div>
-        {alert && (
+        {alert in alertTypes && (
           <Alert
-            severity="success"
+            severity={alertTypes[alert].svt}
             sx={{
               position: 'absolute',
               top: '10%',
@@ -31,7 +46,7 @@ function App() {
               margin: 'auto'
             }}
           >
-            Your post has been successfully created!
+            {alertTypes[alert].content}
           </Alert>
         )}
         <Navbar setPostModalOpen={setPostModalOpen} />

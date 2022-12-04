@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import useAuth from '../hooks/useAuth';
-import axios from '../api/axios';
+// import axios from '../api/axios';
 import LoginImage from './LoginImage';
 import './Login.css';
 
