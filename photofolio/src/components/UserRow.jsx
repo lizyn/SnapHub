@@ -31,17 +31,20 @@ function UserRow(props) {
       following: userIdToFollow
     };
     try {
+      let response;
       if (isFollow) {
-        const response = await axios.post(`${rootUrl}/follows`, params);
-        console.log(response);
+        response = await axios.post(`${rootUrl}/follows`, params);
+        // console.log(response);
       } else {
-        const response = await axios.delete(`${rootUrl}/follows`, {
+        response = await axios.delete(`${rootUrl}/follows`, {
           data: params
         });
-        console.log(response);
       }
+      console.log(response);
+      return response;
     } catch (err) {
       console.error(err);
+      return err;
     }
   };
   const handleFollowBtnClick = () => {
