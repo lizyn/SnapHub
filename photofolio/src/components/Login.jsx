@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 // import useAuth from '../hooks/useAuth';
-import axios from '../api/axios';
+// import axios from '../api/axios';
 import LoginImage from './LoginImage';
 import './Login.css';
 
@@ -20,10 +20,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get(`/account/username=${user}&password=${pwd}`);
-      const example = response.data.data;
-      console.log(example);
-      console.log(result);
+      // const response = await axios.get(`/account/username=${user}&password=${pwd}`);
+      // const example = response.data.data;
+      // console.log(example);
+      // console.log(result);
       setUser('');
       setPwd('');
       setSuccess(true);
