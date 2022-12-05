@@ -80,8 +80,9 @@ function PostDetail(props) {
   const [mentionCandidates, setMentionCandidates] = useState([]);
 
   const getMentionCandidates = async (num) => {
+    console.log(num);
     try {
-      const response = await axios.get(`${rootUrl}/users?limit=${num}`);
+      const response = await axios.get(`${rootUrl}/users`);
       const candidates = response.data.map((user) => ({
         id: user.id,
         display: `${user.firstName} ${user.lastName}`
