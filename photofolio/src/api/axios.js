@@ -96,12 +96,12 @@ export const createComment = async (userId, postID, text) => {
   }
 };
 
-export const addCommentToPost = async (userId, postID, text) => {
+export const addCommentToPost = async (userId, postId, text) => {
   try {
     const response = await axios.post(`${baseURL}/comments`, {
       id: 0,
       userId,
-      postID,
+      postId,
       text
     });
     return response.data.data;
@@ -114,7 +114,6 @@ export const addCommentToPost = async (userId, postID, text) => {
 export const deleteComment = async (commentId) => {
   try {
     const response = await axios.delete(`${baseURL}/comments/${commentId}`);
-    console.log(commentId, response);
     return response.status;
   } catch (err) {
     return err;
