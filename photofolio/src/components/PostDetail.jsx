@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import LikeIconOutlined from '@mui/icons-material/ThumbUpOutlined';
 import LikeIconFilled from '@mui/icons-material/ThumbUp';
@@ -48,7 +49,8 @@ function PostDetail(props) {
     img: PropTypes.string,
     avatar: PropTypes.string,
     likes: PropTypes.number,
-    postId: PropTypes.number.isRequired,
+    postId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired
   };
 
@@ -67,6 +69,7 @@ function PostDetail(props) {
     likes,
     title,
     postId,
+    userId,
     handlePostChange
   } = props;
 
@@ -213,18 +216,20 @@ function PostDetail(props) {
           <div className="post-detail-left">
             <img src={img} className="post-detail-image" alt="post" />
             <div className="post-detail-description">
-              <Avatar
-                alt="me"
-                className="Avatar"
-                src={avatar}
-                sx={{
-                  width: 70,
-                  height: 70,
-                  position: 'absolute',
-                  top: '77%',
-                  left: '2%'
-                }}
-              />
+              <Link to={`/profile/${userId}`}>
+                <Avatar
+                  alt="me"
+                  className="Avatar"
+                  src={avatar}
+                  sx={{
+                    width: 70,
+                    height: 70,
+                    position: 'absolute',
+                    top: '77%',
+                    left: '2%'
+                  }}
+                />
+              </Link>
               <p className="post-detail-description-user">{title}</p>
               <div className="post-detail-description-text">
                 <p>text description</p>
@@ -233,12 +238,14 @@ function PostDetail(props) {
           </div>
           <div className="post-detail-right">
             <div className="post-detail-userhead">
-              <Avatar
-                alt="me"
-                className="Avatar"
-                src={avatar}
-                sx={{ width: 60, height: 60 }}
-              />
+              <Link to={`/profile/${userId}`}>
+                <Avatar
+                  alt="me"
+                  className="Avatar"
+                  src={avatar}
+                  sx={{ width: 60, height: 60 }}
+                />
+              </Link>
               <p className="postUsername">{author}</p>
               <p className="postTime">20 minutes ago</p>
             </div>

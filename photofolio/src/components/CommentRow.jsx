@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { fetchUsers, editComment } from '../api/axios';
 import './CommentRow.css';
 
@@ -30,7 +31,6 @@ function CommentRow(props) {
     setCommenter([]);
     async function fetchCommenterData() {
       const commenters = await fetchUsers(userId);
-      console.log(commenters[0].avatar);
       setCommenter(commenters[0]);
     }
     fetchCommenterData();
@@ -71,7 +71,9 @@ function CommentRow(props) {
       {editing && ( // if editing is true, change comment text area to editing mode
         <div className="comment-row-main">
           <div className="comment-row-left">
-            <Avatar src={commenter.avatar} />
+            <Link to={`/profile/${userId}`}>
+              <Avatar src={commenter.avatar} />
+            </Link>
             <input
               type="text"
               placeholder={commentText}
@@ -90,7 +92,9 @@ function CommentRow(props) {
       {!editing && ( // else just display the comment as usual
         <div className="comment-row-main">
           <div className="comment-row-left">
-            <Avatar src={commenter.avatar} />
+            <Link to={`/profile/${userId}`}>
+              <Avatar src={commenter.avatar} />
+            </Link>
             <p style={{ fontFamily: 'sans-serif' }}>{parse(commentText)}</p>
           </div>
           <div>
