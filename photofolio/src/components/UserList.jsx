@@ -46,11 +46,13 @@ function UserList() {
   }, []);
 
   return users.map((user) => (
-    <div className="user-row-card" key={user.id}>
+    // eslint-disable-next-line no-underscore-dangle
+    <div className="user-row-card" key={user._id}>
       <UserRow
         avatar={user.avatar}
         name={`${user.firstName} ${user.lastName}`}
-        userId={user.id}
+        // eslint-disable-next-line no-underscore-dangle
+        userId={user._id}
         showFollow
       />
     </div>
