@@ -58,12 +58,27 @@ export const fetchUserPost = async (userId) => {
   }
 };
 
-export const fetchComments = async (postId) => {
+export const getAComment = async (commentId) => {
   try {
-    const response = await axios.get(`${baseURL}/posts/${postId}/comments`);
-    return response.data.data;
+    const comment = await axios.get(`${baseURL}/comments/${commentId}`);
+    return comment.data.data;
   } catch (err) {
-    console.error(err);
+    return err;
+  }
+};
+
+export const fetchComments = async (postId) => {
+  const commentList = [];
+  try {
+    const post = await axios.get(`${baseURL}/posts/${postId}`);
+    const commentIds = post.data.data[0].comments;
+    await commentIds.reduce(async (prev, id) => {
+      await prev;
+      const comment = await getAComment(id);
+      commentList.push(comment[0]);
+    }, Promise.resolve());
+    return commentList;
+  } catch (err) {
     return err;
   }
 };
@@ -82,16 +97,15 @@ export const likePosts = async (postId, likeUpdate) => {
   }
 };
 
-export const createComment = async (userId, postID, text) => {
+export const createComment = async (userId, postId, text) => {
   try {
     const response = await axios.post(`${baseURL}/comments/`, {
       userId,
-      postID,
+      postId,
       text
     });
     return response.data.data;
   } catch (err) {
-    console.error(err);
     return err;
   }
 };
@@ -106,7 +120,6 @@ export const addCommentToPost = async (userId, postId, text) => {
     });
     return response.data.data;
   } catch (err) {
-    console.error(err);
     return err;
   }
 };
@@ -143,12 +156,10 @@ export const editComment = async (commentId, commentEdit) => {
 };
 
 export const register = async (newUser) => {
-  console.log(newUser);
   try {
     const response = await axios.post(`${baseURL}/users`, newUser);
     return response;
   } catch (err) {
-    console.log(err);
     throw new Error(err);
   }
 };
