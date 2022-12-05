@@ -157,7 +157,8 @@ function PostDetail(props) {
     comments.forEach((comment) => {
       allComments.push(
         <CommentRow
-          key={comment.id}
+          // eslint-disable-next-line no-underscore-dangle
+          key={comment._id}
           userId={comment.userId}
           commentText={comment.text}
           // eslint-disable-next-line no-underscore-dangle

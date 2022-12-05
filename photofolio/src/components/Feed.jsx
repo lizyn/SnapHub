@@ -18,9 +18,9 @@ function Feed(props) {
     author: PropTypes.string.isRequired,
     img: PropTypes.string,
     avatar: PropTypes.string,
-    likes: PropTypes.number.isRequired,
+    likes: PropTypes.number,
     title: PropTypes.string.isRequired,
-    commentIds: PropTypes.arrayOf(PropTypes.number),
+    commentIds: PropTypes.arrayOf(PropTypes.string),
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired
@@ -29,6 +29,7 @@ function Feed(props) {
   Feed.defaultProps = {
     img: '/',
     avatar: '/',
+    likes: 0,
     commentIds: []
   };
 
@@ -74,6 +75,7 @@ function Feed(props) {
           commentNum={commentIds.length}
           postId={postId}
           userId={userId}
+          key={postId}
           handlePostChange={handlePostChange}
         />
       </div>
