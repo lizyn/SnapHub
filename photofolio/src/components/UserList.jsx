@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserRow from './UserRow';
@@ -16,7 +17,8 @@ function UserList() {
         avatar: defaultAvatar,
         firstName: '',
         lastName: '',
-        id: 10000 + index
+        _id: `${10000 + index}`,
+        showFollow: false
       });
     }
     return dummyUsers;
@@ -44,14 +46,13 @@ function UserList() {
       setUsers([genDummyUsers(numUser)]);
     };
   }, []);
-
   return users.map((user) => (
-    <div className="user-row-card" key={user.id}>
+    <div className="user-row-card" key={user._id}>
       <UserRow
         avatar={user.avatar}
         name={`${user.firstName} ${user.lastName}`}
-        userId={user.id}
-        showFollow
+        userId={user._id}
+        showFollow={user.showFollow !== false}
       />
     </div>
   ));
