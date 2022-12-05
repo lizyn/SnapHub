@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserRow from './UserRow';
@@ -16,7 +17,8 @@ function UserList() {
         avatar: defaultAvatar,
         firstName: '',
         lastName: '',
-        id: 10000 + index
+        _id: `${10000 + index}`,
+        showFollow: false
       });
     }
     return dummyUsers;
@@ -44,7 +46,6 @@ function UserList() {
       setUsers([genDummyUsers(numUser)]);
     };
   }, []);
-
   return users.map((user) => (
     // eslint-disable-next-line no-underscore-dangle
     <div className="user-row-card" key={user._id}>
@@ -53,7 +54,7 @@ function UserList() {
         name={`${user.firstName} ${user.lastName}`}
         // eslint-disable-next-line no-underscore-dangle
         userId={user._id}
-        showFollow
+        showFollow={user.showFollow !== false}
       />
     </div>
   ));

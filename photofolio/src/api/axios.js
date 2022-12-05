@@ -141,3 +141,16 @@ export const editComment = async (commentId, commentEdit) => {
     return err;
   }
 };
+
+export const register = async (newUser) => {
+  console.log(newUser);
+  try {
+    const response = await axios.post(
+      `${baseURL}/users`,
+      newUser);
+    return response;
+  }catch(err) {
+    console.log(err);
+    throw new Error(err);
+  }
+}
