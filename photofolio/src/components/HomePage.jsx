@@ -49,11 +49,11 @@ function HomePage(props) {
               <Avatar
                 alt="me"
                 className="Avatar"
-                src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg"
+                src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg"
                 sx={{ width: 100, height: 100 }}
               />
             </Link>
-            <h3>Tatiana Dokidis</h3>
+            <h3>Efren McDermott</h3>
           </div>
           <div className="recommendations">
             <div style={{ marginBottom: '.5em' }}>Recommended for you</div>
