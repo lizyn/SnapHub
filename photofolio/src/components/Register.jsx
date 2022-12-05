@@ -59,7 +59,8 @@ function Register() {
       return;
     }
     try {
-      // const response = await axios.post('/users',{ user, pwd });
+      const newUser = {username: user, password: pwd};
+      const response = await Register(newUser);
       console.log(JSON.stringify({ user, pwd }));
       setSuccess(true);
     } catch (err) {
