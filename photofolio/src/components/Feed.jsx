@@ -20,7 +20,7 @@ function Feed(props) {
     avatar: PropTypes.string,
     likes: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    commentIds: PropTypes.arrayOf(PropTypes.number),
+    commentIds: PropTypes.arrayOf(PropTypes.string),
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired
