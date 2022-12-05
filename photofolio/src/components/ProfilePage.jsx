@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './ProfilePage.css';
 import { Avatar, Fab } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useParams } from 'react-router-dom';
 
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -12,7 +13,7 @@ import likeIcon from '../icons/Like.svg';
 import followerIcon from '../icons/People.svg';
 import NewIcon from '../icons/New.svg';
 // import userMe from '../images/userMe.jpg';
-import { fetchPhotos } from '../api/axios';
+import { fetchUserPost, fetchUsers } from '../api/axios';
 
 function ProfilePage(props) {
   ProfilePage.propTypes = {
@@ -23,76 +24,35 @@ function ProfilePage(props) {
   };
 
   const { closePostModal, postModalIsOpen, setPostModalOpen, setAlert } = props;
+  let { userId } = useParams();
+  // const user = {
+  //   name: 'Tatiana Dokidis',
+  //   userId: '63899e8d4bd2e0bd159d0e10',
+  //   userProfile:
+  //     'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/119.jpg'
+  // };
 
-  const user = {
-    name: 'Tatiana Dokidis',
-    userId: 1,
-    userProfile:
-      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/119.jpg'
-  };
-
-  // const itemData = [
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-  //     title: 'Breakfast'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-  //     title: 'Burger'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-  //     title: 'Camera'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-  //     title: 'Coffee'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-  //     title: 'Hats'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-  //     title: 'Honey'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-  //     title: 'Basketball'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-  //     title: 'Fern'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-  //     title: 'Mushrooms'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-  //     title: 'Tomato basil'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-  //     title: 'Sea star'
-  //   },
-  //   {
-  //     img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-  //     title: 'Bike'
-  //   }
-  // ];
-
-  // const [userPosts, setUserPosts] = useState([]);
   const [photos, setPhotos] = useState([]);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     setPhotos([]);
-
-    async function fetchPhotoData() {
-      const photoData = await fetchPhotos(user.userId);
-      setPhotos(photoData);
+    async function fetchUser() {
+      if (!userId) userId = '63899e8d4bd2e0bd159d0e10';
+      const userData = await fetchUsers(userId);
+      if (userData) {
+        setUser(userData[0]);
+      }
     }
+    async function fetchPhotoData() {
+      const photoData = await fetchUserPost(userId);
+      if (Array.isArray(photoData) && photoData.length !== 0) {
+        setPhotos(photoData);
+      }
+    }
+    fetchUser();
     fetchPhotoData();
+    console.log(userId);
   }, []);
 
   const orange = createTheme({
@@ -110,6 +70,8 @@ function ProfilePage(props) {
       }
     }
   });
+  const userPosts = photos;
+  console.log(userPosts);
 
   return (
     <div>
@@ -123,16 +85,16 @@ function ProfilePage(props) {
           <Avatar
             alt="me"
             className="Avatar"
-            src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg"
+            src={user.avatar}
             sx={{ width: 100, height: 100 }}
           />
           <div className="profileDes">
-            <p>Tatiana Dokidis</p>
-            <p>
-              Hello, I am a free-lance photographer who loves capturing
-              lanscapes and nature. I post new pictures as I travel around the
-              world.{' '}
-            </p>
+            {user.firstName && user.lastName ? (
+              <p>{`${user.firstName} ${user.lastName}`}</p>
+            ) : (
+              <p>{user.username}</p>
+            )}
+            <p>This user have no self introduction yet.</p>
           </div>
         </div>
         <div className="profileStats">
@@ -166,25 +128,30 @@ function ProfilePage(props) {
         </div>
 
         <div className="profileActivity">
-          <ImageList
-            sx={{ width: 1100, height: 300, overflow: 'hidden' }}
-            cols={3}
-            gap={0}
-          >
-            {photos.map((item) => (
-              <ImageListItem
-                key={item.id}
-                sx={{ width: '95% !important', height: '90% !important' }}
-              >
-                <img
-                  src={`${item.src}?w=164&h=164&fit=crop&auto=format`}
-                  srcSet={`${item.src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.alt}
-                  loading="lazy"
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
+          {!photos || photos.length === 0 ? (
+            <h5>This user have not made any post yet</h5>
+          ) : (
+            <ImageList
+              sx={{ width: 1100, height: 300, overflow: 'hidden' }}
+              cols={3}
+              gap={0}
+            >
+              {userPosts.map((item) => (
+                <ImageListItem
+                  // eslint-disable-next-line no-underscore-dangle
+                  key={item._id}
+                  sx={{ width: '95% !important', height: '90% !important' }}
+                >
+                  <img
+                    src={`${item.photo}?w=164&h=164&fit=crop&auto=format`}
+                    srcSet={`${item.photo}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                    alt={item.alt}
+                    loading="lazy"
+                  />
+                </ImageListItem>
+              ))}
+            </ImageList>
+          )}
         </div>
       </div>
     </div>

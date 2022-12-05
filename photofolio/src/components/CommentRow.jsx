@@ -6,14 +6,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { fetchUsers, editComment } from '../api/axios';
 import './CommentRow.css';
 
 function CommentRow(props) {
   CommentRow.propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
     commentText: PropTypes.string.isRequired,
-    commentId: PropTypes.number.isRequired,
+    commentId: PropTypes.string.isRequired,
     commentDel: PropTypes.func.isRequired,
     commentEd: PropTypes.func.isRequired
   };
@@ -22,7 +23,7 @@ function CommentRow(props) {
 
   const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
-  const [commenter, setCommenter] = useState([]);
+  const [commenter, setCommenter] = useState({});
   const [editing, setEditing] = useState(false);
   const [commentEdit, setCommentEdit] = useState(commentText);
 
@@ -30,7 +31,7 @@ function CommentRow(props) {
     setCommenter([]);
     async function fetchCommenterData() {
       const commenters = await fetchUsers(userId);
-      setCommenter(commenters);
+      setCommenter(commenters[0]);
     }
     fetchCommenterData();
   }, []);
@@ -50,7 +51,6 @@ function CommentRow(props) {
 
   const handleCommentEdit = (e) => {
     setCommentEdit(e.target.value);
-    console.log(commentEdit);
   };
 
   const handleEditSave = async () => {
@@ -71,7 +71,9 @@ function CommentRow(props) {
       {editing && ( // if editing is true, change comment text area to editing mode
         <div className="comment-row-main">
           <div className="comment-row-left">
-            <Avatar src={commenter.avatar} />
+            <Link to={`/profile/${userId}`}>
+              <Avatar src={commenter.avatar} />
+            </Link>
             <input
               type="text"
               placeholder={commentText}
@@ -90,7 +92,9 @@ function CommentRow(props) {
       {!editing && ( // else just display the comment as usual
         <div className="comment-row-main">
           <div className="comment-row-left">
-            <Avatar src={commenter.avatar} />
+            <Link to={`/profile/${userId}`}>
+              <Avatar src={commenter.avatar} />
+            </Link>
             <p style={{ fontFamily: 'sans-serif' }}>{parse(commentText)}</p>
           </div>
           <div>

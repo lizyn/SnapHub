@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: 'http://localhost:3500'
+  baseURL: 'http://localhost:8080'
 });
 
-const baseURL = 'http://localhost:3500';
-export const fetchPosts = async () => {
+const baseURL = 'http://localhost:8080';
+export const fetchFeeds = async (userId) => {
   try {
-    const response = await axios.get(`${baseURL}/posts`);
+    const response = await axios.get(`${baseURL}/users/${userId}/feed`);
     return response.data.data;
   } catch (err) {
     console.error(err);
@@ -54,7 +54,6 @@ export const fetchUserPost = async (userId) => {
     const response = await axios.get(URL);
     return response.data.data;
   } catch (err) {
-    console.error(err);
     return err;
   }
 };
@@ -83,12 +82,11 @@ export const likePosts = async (postId, likeUpdate) => {
   }
 };
 
-export const createComment = async (userId, postId, text) => {
+export const createComment = async (userId, postID, text) => {
   try {
-    const response = await axios.post(`${baseURL}/comments`, {
-      id: 0,
+    const response = await axios.post(`${baseURL}/comments/`, {
       userId,
-      postId,
+      postID,
       text
     });
     return response.data.data;

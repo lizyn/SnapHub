@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { Avatar } from '@mui/material';
+import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import LikeIconOutlined from '@mui/icons-material/ThumbUpOutlined';
 import LikeIconFilled from '@mui/icons-material/ThumbUp';
@@ -47,14 +48,16 @@ function PostDetail(props) {
     title: PropTypes.string.isRequired,
     img: PropTypes.string,
     avatar: PropTypes.string,
-    likes: PropTypes.number.isRequired,
-    postId: PropTypes.number.isRequired,
+    likes: PropTypes.number,
+    postId: PropTypes.string.isRequired,
+    userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired
   };
 
   PostDetail.defaultProps = {
     img: '/',
-    avatar: '/'
+    avatar: '/',
+    likes: 0
   };
 
   const {
@@ -66,6 +69,7 @@ function PostDetail(props) {
     likes,
     title,
     postId,
+    userId,
     handlePostChange
   } = props;
 
@@ -93,13 +97,18 @@ function PostDetail(props) {
   const [testState, setTestState] = useState(false);
   // const closePostModal = () => setPostModalOpen(false);
   const closeEditPostModal = () => setTestState(false);
+  let commentlist;
   // const [alert, setAlert] = useState(false);
   // const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
       const commentsData = await fetchComments(postId);
-      setComments(commentsData);
+      console.log(commentsData);
+      if (Array.isArray(commentsData) && commentsData.length >= 0) {
+        commentlist = commentsData;
+        setComments(commentlist);
+      }
     }
     fetchData();
   }, [commentSubmit, postDeleted, commentEdited]);
@@ -138,8 +147,8 @@ function PostDetail(props) {
     }
   };
 
-  const handleCommentDelete = (commentId) => {
-    deleteComment(commentId);
+  const handleCommentDelete = async (commentId) => {
+    await deleteComment(commentId);
     setPostDeleted((currentDelete) => !currentDelete);
   };
 
@@ -151,7 +160,8 @@ function PostDetail(props) {
           key={comment.id}
           userId={comment.userId}
           commentText={comment.text}
-          commentId={comment.id}
+          // eslint-disable-next-line no-underscore-dangle
+          commentId={comment._id}
           commentDel={handleCommentDelete}
           commentEd={setCommentEdited}
         >
@@ -179,7 +189,7 @@ function PostDetail(props) {
 
   const handleCommentSubmit = () => {
     const comment = convertMentionInComment(commentInput);
-    createComment(1, postId, comment);
+    createComment('63899e8d4bd2e0bd159d0e10', postId, comment);
     setCommentSubmit(comment);
     setCommentInput('');
   };
@@ -206,18 +216,20 @@ function PostDetail(props) {
           <div className="post-detail-left">
             <img src={img} className="post-detail-image" alt="post" />
             <div className="post-detail-description">
-              <Avatar
-                alt="me"
-                className="Avatar"
-                src={avatar}
-                sx={{
-                  width: 70,
-                  height: 70,
-                  position: 'absolute',
-                  top: '77%',
-                  left: '2%'
-                }}
-              />
+              <Link to={`/profile/${userId}`}>
+                <Avatar
+                  alt="me"
+                  className="Avatar"
+                  src={avatar}
+                  sx={{
+                    width: 70,
+                    height: 70,
+                    position: 'absolute',
+                    top: '77%',
+                    left: '2%'
+                  }}
+                />
+              </Link>
               <p className="post-detail-description-user">{title}</p>
               <div className="post-detail-description-text">
                 <p>text description</p>
@@ -226,12 +238,14 @@ function PostDetail(props) {
           </div>
           <div className="post-detail-right">
             <div className="post-detail-userhead">
-              <Avatar
-                alt="me"
-                className="Avatar"
-                src={avatar}
-                sx={{ width: 60, height: 60 }}
-              />
+              <Link to={`/profile/${userId}`}>
+                <Avatar
+                  alt="me"
+                  className="Avatar"
+                  src={avatar}
+                  sx={{ width: 60, height: 60 }}
+                />
+              </Link>
               <p className="postUsername">{author}</p>
               <p className="postTime">20 minutes ago</p>
             </div>

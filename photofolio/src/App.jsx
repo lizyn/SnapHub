@@ -71,7 +71,7 @@ function App() {
               setAlert={setAlert}
             />
           </Route>
-          <Route path="/profile">
+          <Route path="/profile/:userId?">
             <ProfilePage
               postModalIsOpen={postModalIsOpen}
               setPostModalOpen={setPostModalOpen}
