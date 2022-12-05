@@ -79,15 +79,20 @@ function PostDetail(props) {
   const [commentSubmit, setCommentSubmit] = useState('');
   const [mentionCandidates, setMentionCandidates] = useState([]);
 
-  const getMentionCandidates = async (num) => {
+  const getMentionCandidates = async () => {
     try {
-      const response = await axios.get(`${rootUrl}/users?limit=${num}`);
-      const candidates = response.data.map((user) => ({
-        id: user.id,
+      const response = await axios.get(`${rootUrl}/users`);
+      // console.log(response);
+      const candidates = response.data.data.map((user) => ({
+        // eslint-disable-next-line no-underscore-dangle
+        id: user._id,
         display: `${user.firstName} ${user.lastName}`
       }));
+      // console.log('----------');
+      // console.log(candidates);
       setMentionCandidates(candidates);
     } catch (err) {
+      console.log(err);
       // return err;
     }
   };
@@ -114,7 +119,7 @@ function PostDetail(props) {
   }, [commentSubmit, postDeleted, commentEdited]);
 
   useEffect(() => {
-    getMentionCandidates(12);
+    getMentionCandidates();
   }, []);
 
   const handleClose = (e, r) => {
