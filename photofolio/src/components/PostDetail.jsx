@@ -109,7 +109,7 @@ function PostDetail(props) {
   useEffect(() => {
     async function fetchData() {
       const commentsData = await fetchComments(postId);
-      console.log(commentsData);
+      // console.log(commentsData);
       if (Array.isArray(commentsData) && commentsData.length >= 0) {
         commentlist = commentsData;
         setComments(commentlist);
@@ -162,7 +162,8 @@ function PostDetail(props) {
     comments.forEach((comment) => {
       allComments.push(
         <CommentRow
-          key={comment.id}
+          // eslint-disable-next-line no-underscore-dangle
+          key={comment._id}
           userId={comment.userId}
           commentText={comment.text}
           // eslint-disable-next-line no-underscore-dangle
