@@ -304,6 +304,7 @@ function PostDetail(props) {
                   placeholder="Post a comment. Mention with '@'"
                   onChange={handleCommentChange}
                   singleLine
+                  allowSpaceInQuery
                   style={{
                     width: '75%',
                     maxWidth: '20em'
