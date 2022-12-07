@@ -86,7 +86,10 @@ function PostDetail(props) {
       const candidates = response.data.data.map((user) => ({
         // eslint-disable-next-line no-underscore-dangle
         id: user._id,
-        display: `${user.firstName} ${user.lastName}`
+        display:
+          user.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user.username || 'User 42'
       }));
       // console.log('----------');
       // console.log(candidates);

@@ -69,7 +69,9 @@ function HomePage(props) {
               />
             </Link>
             <h3>
-              {user.firstName || 'User'} {user.lastName || '42'}
+              {user.firstName && user.lastName
+                ? `${user.firstName} ${user.lastName}`
+                : user.username || 'User 42'}
             </h3>
           </div>
           <div className="recommendations">

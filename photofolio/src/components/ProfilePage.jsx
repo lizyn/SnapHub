@@ -91,7 +91,7 @@ function ProfilePage(props) {
             {user.firstName && user.lastName ? (
               <p>{`${user.firstName} ${user.lastName}`}</p>
             ) : (
-              <p>{user.username}</p>
+              <p>{user.username || 'User 42'}</p>
             )}
             <p>This user have no self introduction yet.</p>
           </div>
