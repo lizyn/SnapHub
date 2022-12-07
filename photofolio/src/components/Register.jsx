@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
 // import axios from '../api/axios';
 import './Register.css';
-// import axios from '../api/axios';
+import { register } from '../api/axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -60,7 +60,7 @@ function Register() {
     }
     try {
       const newUser = { username: user, password: pwd };
-      const response = await Register(newUser);
+      const response = await register(newUser);
       console.log(JSON.stringify(response));
       setSuccess(true);
     } catch (err) {
