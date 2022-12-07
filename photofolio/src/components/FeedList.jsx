@@ -37,6 +37,7 @@ function FeedList() {
 
   const populateFeeds = () => {
     const feeds = [];
+    if (!userList || !feedsList) return feeds;
     feedsList.forEach((post) => {
       // const photo = photoList.find((x) => x.postId === post.id);
       // eslint-disable-next-line no-underscore-dangle
@@ -64,14 +65,14 @@ function FeedList() {
     return feeds;
   };
   let feeds = <CircularProgress />;
-  if (userList && feedsList) {
-    feeds = populateFeeds();
-  } else if (feedsList.length === 0) {
+
+  feeds = populateFeeds();
+  if (feeds.length === 0) {
     feeds = (
-      <h5>
-        Seems that you do not have feeds. Go add users you like to your follow
-        list!
-      </h5>
+      <h3>
+        Seems that you do not have any feeds. Go add users you like to your
+        follow list!
+      </h3>
     );
   }
 
