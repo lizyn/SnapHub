@@ -37,10 +37,10 @@ function HomePage(props) {
   });
   const userId = '63899e8d4bd2e0bd159d0e10';
   const [user, setUser] = useState({
-    firstName: ' ',
-    lastName: ' ',
+    firstName: 'Efren',
+    lastName: 'McDermott',
     avatar:
-      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg'
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg'
   });
   useEffect(() => {
     async function fetchUserData() {
