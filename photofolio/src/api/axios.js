@@ -60,8 +60,26 @@ export const fetchUserPost = async (userId) => {
 
 export const fetchComments = async (postId) => {
   try {
-    const response = await axios.get(`${baseURL}/posts/${postId}/comments`);
-    return response.data.data;
+    // const response = await axios.get(`${baseURL}/posts/${postId}/comments`);
+    const response = await axios.get(`${baseURL}/posts/${postId}`);
+    const commentIds = response.data.data[0].comments;
+    // console.log(response);
+    // console.log(commentIds);
+    const comments = [];
+    // return response;
+    await Promise.all(
+      commentIds.map(async (id) => {
+        await axios
+          .get(`${baseURL}/comments/${id}`)
+          .then((data) => comments.push(data.data.data[0]));
+      })
+    );
+    // const comments = await commentIds.map(async (id) =>
+    //   axios.get(`${baseURL}/comments/${id}`).then((data) => data)
+    // );
+    // console.log(comments);
+    return comments;
+    // return response.data.data;
   } catch (err) {
     console.error(err);
     return err;

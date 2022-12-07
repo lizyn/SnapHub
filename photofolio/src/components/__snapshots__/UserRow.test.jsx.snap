@@ -7,11 +7,16 @@ exports[`Post Modal matches snapshot 1`] = `
   <div
     className="container"
   >
-    <img
-      alt=""
-      className="profile-pic"
-      src=""
-    />
+    <a
+      href="/profile/1"
+      onClick={[Function]}
+    >
+      <img
+        alt=""
+        className="profile-pic"
+        src=""
+      />
+    </a>
     <div
       className="username"
     />

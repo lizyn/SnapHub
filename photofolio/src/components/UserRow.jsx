@@ -24,7 +24,7 @@ function UserRow(props) {
   const [followBtn, setFollowBtn] = useState('outlined');
   const [followed, setFollowed] = useState(false);
 
-  const currentUserId = '638682d7b47712e0d260ce8b';
+  const currentUserId = '63899e8d4bd2e0bd159d0e10';
   const toggleFollow = async (userIdToFollow, isFollow) => {
     const params = {
       follower: currentUserId,
