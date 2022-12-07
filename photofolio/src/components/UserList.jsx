@@ -6,7 +6,7 @@ import defaultAvatar from '../images/defaultAvatar.png';
 import { rootUrl } from './Config';
 
 function UserList() {
-  const currentUserId = '638682d7b47712e0d260ce8b';
+  const currentUserId = '63899e8d4bd2e0bd159d0e10';
   const numUser = 6;
   const [users, setUsers] = useState([]);
 
@@ -51,7 +51,7 @@ function UserList() {
     <div className="user-row-card" key={user._id}>
       <UserRow
         avatar={user.avatar}
-        name={`${user.firstName} ${user.lastName}`}
+        name={`${user.firstName || user.username || ''} ${user.lastName || ''}`}
         // eslint-disable-next-line no-underscore-dangle
         userId={user._id}
         showFollow={user.showFollow !== false}
