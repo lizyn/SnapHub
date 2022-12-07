@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserRow from './UserRow';
-import defaultAvatar from '../images/defaultAvatar.png';
 import { rootUrl } from './Config';
 
 function UserList() {
@@ -14,7 +13,6 @@ function UserList() {
     const dummyUsers = [];
     for (let index = 0; index < num; index += 1) {
       dummyUsers.push({
-        avatar: defaultAvatar,
         firstName: '',
         lastName: '',
         _id: `${10000 + index}`,
