@@ -86,13 +86,18 @@ export const fetchComments = async (postId) => {
 export const likePosts = async (postId, likeUpdate) => {
   try {
     const currentData = await axios.get(`${baseURL}/posts/${postId}`);
+    // console.log({
+    //   ...currentData.data.data[0],
+    //   likes: likeUpdate
+    // });
     const response = await axios.put(`${baseURL}/posts/${postId}`, {
-      ...currentData.data,
+      ...currentData.data.data[0],
       likes: likeUpdate
     });
-    return response.data.data;
+    // console.log(response);
+    return response;
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     return err;
   }
 };
