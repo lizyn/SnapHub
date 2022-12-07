@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './HomePage.css';
 import { Avatar } from '@mui/material';
@@ -10,6 +10,7 @@ import CreatePostModal from './CreatePostModal';
 import searchIcon from '../icons/Search.svg';
 import NewIcon from '../icons/New.svg';
 import UserList from './UserList';
+import { fetchUsers } from '../api/axios';
 
 function HomePage(props) {
   HomePage.propTypes = {
@@ -34,6 +35,20 @@ function HomePage(props) {
       }
     }
   });
+  const userId = '63899e8d4bd2e0bd159d0e10';
+  const [user, setUser] = useState({
+    firstName: 'Efren',
+    lastName: 'McDermott',
+    avatar:
+      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg'
+  });
+  useEffect(() => {
+    async function fetchUserData() {
+      const userData = await fetchUsers(userId);
+      setUser(userData[0]);
+    }
+    fetchUserData();
+  }, []);
 
   return (
     <div className="flex1">
@@ -49,11 +64,13 @@ function HomePage(props) {
               <Avatar
                 alt="me"
                 className="Avatar"
-                src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg"
+                src={user.avatar}
                 sx={{ width: 100, height: 100 }}
               />
             </Link>
-            <h3>Tatiana Dokidis</h3>
+            <h3>
+              {user.firstName || 'User'} {user.lastName || '42'}
+            </h3>
           </div>
           <div className="recommendations">
             <div style={{ marginBottom: '.5em' }}>Recommended for you</div>

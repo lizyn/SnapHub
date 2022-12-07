@@ -71,7 +71,6 @@ function ProfilePage(props) {
     }
   });
   const userPosts = photos;
-  console.log(userPosts);
 
   return (
     <div>
