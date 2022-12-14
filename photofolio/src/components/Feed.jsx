@@ -62,21 +62,24 @@ function Feed(props) {
     }
   };
 
-  // const postTimeStr = Math.floor(msAge / 1000);
-  let postTimeStr;
-  if (msAge < 0) postTimeStr = 'a while ago';
-  else if (msAge < 1000 * 60)
-    postTimeStr = `${Math.floor(msAge / 1000)} secs ago`;
-  else if (msAge < 1000 * 60 * 60)
-    postTimeStr = `${Math.floor(msAge / 1000 / 60)} mins ago`;
-  else if (msAge < 1000 * 60 * 60 * 24)
-    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60)} hours ago`;
-  else if (msAge < 1000 * 60 * 60 * 24 * 30)
-    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60 / 24)} days ago`;
-  else if (msAge < 1000 * 60 * 60 * 24 * 30 * 12)
-    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60 / 24 / 30)} months ago`;
-  else
-    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60 / 24 / 365)} years ago`;
+  const parsePostTime = (ms) => {
+    let postTimeStr;
+    if (ms < 0) postTimeStr = 'a while ago';
+    else if (ms < 1000 * 60) postTimeStr = `${Math.floor(ms / 1000)} secs ago`;
+    else if (ms < 1000 * 60 * 60)
+      postTimeStr = `${Math.floor(ms / 1000 / 60)} mins ago`;
+    else if (ms < 1000 * 60 * 60 * 24)
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60)} hours ago`;
+    else if (ms < 1000 * 60 * 60 * 24 * 30)
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60 / 24)} days ago`;
+    else if (ms < 1000 * 60 * 60 * 24 * 30 * 12)
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60 / 24 / 30)} months ago`;
+    else
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60 / 24 / 365)} years ago`;
+    return postTimeStr;
+  };
+
+  const postTimeStr = parsePostTime(msAge);
 
   return (
     <div>
