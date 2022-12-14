@@ -20,6 +20,7 @@ function Feed(props) {
     avatar: PropTypes.string,
     likes: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
+    msAge: PropTypes.number,
     commentIds: PropTypes.arrayOf(PropTypes.string),
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
@@ -27,6 +28,7 @@ function Feed(props) {
   };
 
   Feed.defaultProps = {
+    msAge: 0,
     img: '/',
     avatar: '/',
     commentIds: []
@@ -39,6 +41,7 @@ function Feed(props) {
     likes,
     commentIds,
     title,
+    msAge,
     postId,
     userId,
     handlePostChange
@@ -59,6 +62,22 @@ function Feed(props) {
     }
   };
 
+  // const postTimeStr = Math.floor(msAge / 1000);
+  let postTimeStr;
+  if (msAge < 0) postTimeStr = 'a while ago';
+  else if (msAge < 1000 * 60)
+    postTimeStr = `${Math.floor(msAge / 1000)} secs ago`;
+  else if (msAge < 1000 * 60 * 60)
+    postTimeStr = `${Math.floor(msAge / 1000 / 60)} mins ago`;
+  else if (msAge < 1000 * 60 * 60 * 24)
+    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60)} hours ago`;
+  else if (msAge < 1000 * 60 * 60 * 24 * 30)
+    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60 / 24)} days ago`;
+  else if (msAge < 1000 * 60 * 60 * 24 * 30 * 12)
+    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60 / 24 / 30)} months ago`;
+  else
+    postTimeStr = `${Math.floor(msAge / 1000 / 60 / 60 / 24 / 365)} years ago`;
+
   return (
     <div>
       <div style={{ display: 'none' }}>
@@ -71,6 +90,7 @@ function Feed(props) {
           likes={likes}
           commentIds={commentIds}
           title={title}
+          postTimeStr={postTimeStr}
           commentNum={commentIds.length}
           postId={postId}
           userId={userId}
@@ -88,7 +108,7 @@ function Feed(props) {
             />
             <div className="post-head-detail">
               <p className="postUsername">{author}</p>
-              <p className="postTime">20 minutes ago</p>
+              <p className="postTime">{postTimeStr}</p>
             </div>
           </div>
           <button type="button" onClick={handleClick}>
