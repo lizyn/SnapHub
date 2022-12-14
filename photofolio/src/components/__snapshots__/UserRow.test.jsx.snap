@@ -8,7 +8,7 @@ exports[`Post Modal matches snapshot 1`] = `
     className="container"
   >
     <a
-      href="/profile/1"
+      href="/profile/63899e8d4bd2e0bd159d0e10"
       onClick={[Function]}
     >
       <img

@@ -23,12 +23,14 @@ exports[`HomePage component matches snapshot 1`] = `
             <img
               alt="me"
               className="MuiAvatar-img css-1pqm26d-MuiAvatar-img"
-              src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg"
+              src="https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg"
             />
           </div>
         </a>
         <h3>
-          Tatiana Dokidis
+          Efren
+           
+          McDermott
         </h3>
       </div>
       <div
@@ -52,29 +54,15 @@ exports[`HomePage component matches snapshot 1`] = `
         className="right-top"
       >
         <div
-          className="searchbar"
-        >
-          <input
-            name="search"
-            placeholder="Tag, user, etc..."
-            type="text"
-          />
-          <button
-            type="submit"
-          >
-            <img
-              alt="search"
-              src={Object {}}
-            />
-             Search
-             
-          </button>
-        </div>
-        <div
           className="newpost"
+          style={
+            Object {
+              "margin": "auto",
+            }
+          }
         >
           <button
-            className="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary css-1j8wu97-MuiButtonBase-root-MuiFab-root"
+            className="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary css-182jrgl-MuiButtonBase-root-MuiFab-root"
             disabled={false}
             onBlur={[Function]}
             onClick={[Function]}
@@ -106,7 +94,11 @@ exports[`HomePage component matches snapshot 1`] = `
       >
         <div
           className="feedlist-main"
-        />
+        >
+          <h3>
+            Seems that you do not have any feeds. Go add users you like to your follow list!
+          </h3>
+        </div>
       </div>
     </div>
   </div>
