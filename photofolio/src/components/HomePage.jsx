@@ -7,7 +7,7 @@ import Fab from '@mui/material/Fab';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import FeedList from './FeedList';
 import CreatePostModal from './CreatePostModal';
-import searchIcon from '../icons/Search.svg';
+// import searchIcon from '../icons/Search.svg';
 import NewIcon from '../icons/New.svg';
 import UserList from './UserList';
 import { fetchUsers } from '../api/axios';
@@ -80,7 +80,7 @@ function HomePage(props) {
 
         <div className="right-section">
           <div className="right-top">
-            <div className="searchbar">
+            {/* <div className="searchbar">
               <input
                 type="text"
                 placeholder="Tag, user, etc..."
@@ -89,13 +89,18 @@ function HomePage(props) {
               <button type="submit">
                 <img src={searchIcon} alt="search" /> Search{' '}
               </button>
-            </div>
-            <div className="newpost">
+            </div> */}
+            <div
+              className="newpost"
+              style={{
+                margin: 'auto'
+              }}
+            >
               <ThemeProvider theme={orange}>
                 <Fab
                   variant="extended"
                   color="primary"
-                  sx={{ mb: 20, zIndex: 998 }}
+                  sx={{ zIndex: 998 }}
                   onClick={() => setPostModalOpen((o) => !o)}
                 >
                   <img src={NewIcon} className="newPostSign" alt="new" />
