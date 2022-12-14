@@ -13,12 +13,13 @@ test('Feed component matches snapshot', () => {
   const component = renderer.create(
     <Feed
       author=""
+      userId="1"
       img=""
       avatar=""
       likes={0}
       commentIds={[]}
       title=""
-      postId={0}
+      postId="0"
       handlePostChange={() => {}}
     />
   );
@@ -30,12 +31,13 @@ test('Like btn respond/changes when a post is liked', async () => {
   render(
     <Feed
       author="theUser"
+      userId="1"
       img=""
       avatar=""
       likes={5}
       commentIds={[]}
       title="smile"
-      postId={0}
+      postId="0"
       handlePostChange={() => {}}
     />
   );

@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { act } from 'react-dom/test-utils';
 import React from 'react';
 import MockAdapter from 'axios-mock-adapter';
 import Register from './components/Register';
@@ -15,8 +16,8 @@ import axios from './api/axios';
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
-    push: mockHistoryPush,
-  }),
+    push: mockHistoryPush
+  })
 }));
 
 // test('renders Home page', () => {
@@ -31,14 +32,14 @@ jest.mock('react-router-dom', () => ({
 
 const mockAxios = new MockAdapter(axios);
 
-test('the api returned correct user information', async ()=>{
+test('the api returned correct user information', async () => {
   await mockAxios.onGet().reply(200, {
-    username: 'Emily', 
+    username: 'Emily',
     password: 'ASDFasdf1234!'
   });
-})
+});
 
-test("login test", async() => {
+test('login test', async () => {
   const { getByText } = render(
     <MemoryRouter>
       <Login />
@@ -57,14 +58,15 @@ test("login test", async() => {
   await userEvent.type(password, 'ASDFasdf1234!');
   expect(username).toHaveValue('Emily');
   expect(password).toHaveValue('ASDFasdf1234!');
-  await fireEvent.click(Button);
+  // await fireEvent.click(Button);
+  await act(async () => fireEvent.click(Button));
 });
 
 test('Resgister Snapshot Test', async () => {
   render(
-  <MemoryRouter>
-    <Register />
-  </MemoryRouter>
+    <MemoryRouter>
+      <Register />
+    </MemoryRouter>
   );
   const Button = screen.getByRole('button');
   const username = screen.getByLabelText('Username:');
@@ -73,5 +75,6 @@ test('Resgister Snapshot Test', async () => {
   await userEvent.type(password, 'ASDFasdf1234!');
   expect(username).toHaveValue('Emily');
   expect(password).toHaveValue('ASDFasdf1234!');
-  await fireEvent.click(Button);
+  await act(async () => fireEvent.click(Button));
+  // await fireEvent.click(Button);
 });
