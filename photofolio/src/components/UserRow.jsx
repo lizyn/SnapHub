@@ -40,10 +40,10 @@ function UserRow(props) {
           data: params
         });
       }
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       return err;
     }
   };

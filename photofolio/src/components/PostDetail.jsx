@@ -211,7 +211,7 @@ function PostDetail(props) {
         img={img}
       />
       <Modal
-        open={open}
+        open={open || false}
         onClose={handleClose}
         aria-labelledby="post-title"
         aria-describedby="post-description"

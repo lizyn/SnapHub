@@ -52,7 +52,8 @@ export default function EditPostModal(props) {
 
   const user = {
     name: 'Tatiana Dokidis',
-    userId: '638682d7b47712e0d260ce8b'
+    userId: '638682d7b47712e0d260ce8b',
+    avatar: ''
   };
 
   const handleFileChange = (event) => {
@@ -199,7 +200,7 @@ export default function EditPostModal(props) {
                 flexDirection: 'column'
               }}
             >
-              <UserRow name={user.name} userId={user.userId} ring />
+              <UserRow name={user.name} userId={user.userId} avatar="" ring />
               <Box sx={{ mx: 2 }}>
                 <Box component="form" noValidate onSubmit={handleSubmit}>
                   <TextField

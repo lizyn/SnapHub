@@ -47,7 +47,8 @@ export default function CreatePostModal(props) {
   const [fileType, setFileType] = useState('img');
   const user = {
     name: 'Tatiana Dokidis',
-    userId: '638682d7b47712e0d260ce8b'
+    userId: '638682d7b47712e0d260ce8b',
+    avatar: ''
   };
   const { open, closeModal, setAlert } = props;
 
@@ -216,7 +217,12 @@ export default function CreatePostModal(props) {
                 flexDirection: 'column'
               }}
             >
-              <UserRow name={user.name} userId={1} ring />
+              <UserRow
+                name={user.name}
+                userId={user.userId}
+                ring
+                avatar={user.avatar}
+              />
               <Box sx={{ mx: 2 }}>
                 <Box component="form" noValidate onSubmit={handleSubmit}>
                   <TextField
