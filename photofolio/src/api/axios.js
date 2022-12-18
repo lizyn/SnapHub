@@ -68,16 +68,10 @@ export const getAComment = async (commentId) => {
 };
 
 export const fetchComments = async (postId) => {
-  const commentList = [];
+  // const commentList = [];
   try {
-    const post = await axios.get(`${baseURL}/posts/${postId}`);
-    const commentIds = post.data.data[0].comments;
-    await commentIds.reduce(async (prev, id) => {
-      await prev;
-      const comment = await getAComment(id);
-      commentList.push(comment[0]);
-    }, Promise.resolve());
-    return commentList;
+    const commentList = await axios.get(`${baseURL}/posts/${postId}/comments`);
+    return commentList.data.data;
   } catch (err) {
     return err;
   }
