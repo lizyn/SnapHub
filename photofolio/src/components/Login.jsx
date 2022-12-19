@@ -33,6 +33,8 @@ function Login() {
         setErrMsg('No Server Response');
       } else if (err.response.status === 400) {
         setErrMsg('Missing Username or Password');
+      } else if (err.response.status === 403) {
+        setErrMsg('Account Lockout');
       } else {
         setErrMsg('Login Failed');
       }
