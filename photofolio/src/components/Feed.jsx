@@ -19,6 +19,7 @@ function Feed(props) {
     img: PropTypes.string,
     avatar: PropTypes.string,
     likes: PropTypes.number.isRequired,
+    likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     commentIds: PropTypes.arrayOf(PropTypes.string),
     postId: PropTypes.string.isRequired,
@@ -41,10 +42,15 @@ function Feed(props) {
     title,
     postId,
     userId,
-    handlePostChange
+    handlePostChange,
+    likedBy
   } = props;
+
+  const curUserId = '63899e8d4bd2e0bd159d0e10';
+
   const [detailOpen, setDetailOpen] = useState(false);
-  const [postLiked, setPostLiked] = useState(false);
+  const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
+  const [numLikes, setNumLikes] = useState(likes);
 
   const handleClick = () => {
     setDetailOpen(true);
@@ -52,12 +58,9 @@ function Feed(props) {
 
   const handleLikeClick = () => {
     setPostLiked((currentLike) => !currentLike);
+    if (postLiked) setNumLikes(numLikes - 1);
+    else setNumLikes(numLikes + 1);
     likePosts(postId, userId);
-    // if (!postLiked) {
-    //   likePosts(postId, userId);
-    // } else {
-    //   likePosts(postId, userId);
-    // }
   };
 
   return (
@@ -70,6 +73,7 @@ function Feed(props) {
           avatar={avatar}
           img={img}
           likes={likes}
+          likedBy={likedBy}
           commentIds={commentIds}
           title={title}
           commentNum={commentIds.length}
@@ -109,7 +113,9 @@ function Feed(props) {
                     <LikeIconOutlined />
                   )}
                 </IconButton>
-                <p>{postLiked ? `${likes + 1} Likes` : `${likes} Likes`}</p>
+                <p>
+                  {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
+                </p>
               </div>
               <div className="stats">
                 <ForumOutlinedIcon />

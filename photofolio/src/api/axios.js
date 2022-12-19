@@ -80,18 +80,23 @@ export const fetchComments = async (postId) => {
 export const likePosts = async (postId) => {
   const userId = '63899e8d4bd2e0bd159d0e10';
   try {
-    // const targetPost = await axios.get(`${baseURL}/posts/${postId}`);
-    // console.log({
-    //   ...currentData.data.data[0],
-    //   likes: likeUpdate
-    // });
     const response = await axios.post(`${baseURL}/posts/${postId}/like`, {
       userId
     });
-    // console.log(response);
     return response;
   } catch (err) {
-    // console.error(err);
+    return err;
+  }
+};
+
+export const likeStatus = async (postId) => {
+  const userId = '63899e8d4bd2e0bd159d0e10';
+  try {
+    const response = await axios.post(`${baseURL}/posts/${postId}/liked`, {
+      userId
+    });
+    return response;
+  } catch (err) {
     return err;
   }
 };

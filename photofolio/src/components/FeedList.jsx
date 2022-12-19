@@ -53,6 +53,7 @@ function FeedList() {
             userId={user._id}
             avatar={user.avatar}
             likes={post.likes || 0}
+            likedBy={post.likedBy || []}
             commentIds={post.comments}
             title={post.title}
             // eslint-disable-next-line no-underscore-dangle

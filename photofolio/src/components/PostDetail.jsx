@@ -49,6 +49,7 @@ function PostDetail(props) {
     img: PropTypes.string,
     avatar: PropTypes.string,
     likes: PropTypes.number,
+    likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired
@@ -70,11 +71,15 @@ function PostDetail(props) {
     title,
     postId,
     userId,
-    handlePostChange
+    handlePostChange,
+    likedBy
   } = props;
 
+  const curUserId = '63899e8d4bd2e0bd159d0e10';
+
   const [comments, setComments] = useState([]);
-  const [postLiked, setPostLiked] = useState(false);
+  const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
+  const [numLikes, setNumLikes] = useState(likes);
   const [commentInput, setCommentInput] = useState('');
   const [commentSubmit, setCommentSubmit] = useState('');
   const [mentionCandidates, setMentionCandidates] = useState([]);
@@ -131,11 +136,9 @@ function PostDetail(props) {
 
   const handleLikeClick = () => {
     setPostLiked((currentLike) => !currentLike);
-    if (!postLiked) {
-      likePosts(postId, likes + 1);
-    } else {
-      likePosts(postId, likes);
-    }
+    if (postLiked) setNumLikes(numLikes - 1);
+    else setNumLikes(numLikes + 1);
+    likePosts(postId, userId);
   };
 
   const handlePostEdit = async () => {
@@ -288,7 +291,9 @@ function PostDetail(props) {
                       <LikeIconOutlined />
                     )}
                   </IconButton>
-                  <p>{postLiked ? `${likes + 1} Likes` : `${likes} Likes`}</p>
+                  <p>
+                    {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
+                  </p>
                 </div>
                 <div className="post-detail-stats">
                   <img src={commentIcon} alt="comment" />
