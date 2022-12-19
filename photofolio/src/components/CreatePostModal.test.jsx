@@ -4,6 +4,8 @@
 
 import { React } from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { MemoryRouter } from 'react-router-dom';
 // import { renderIntoDocument, fireEvent } from 'react-testing-library';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
@@ -14,13 +16,26 @@ import axios from '../api/axios';
 
 // snapshot testing
 test('Post Modal matches snapshot', () => {
-  const component = renderer.create(<CreatePostModal />);
+  const component = renderer.create(
+    <MemoryRouter>
+      <CreatePostModal avatar="" />
+    </MemoryRouter>
+  );
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
 
 test('render 4 buttons', () => {
-  render(<CreatePostModal open closeModal={() => {}} setAlert={() => {}} />);
+  render(
+    <MemoryRouter>
+      <CreatePostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        avatar=""
+      />
+    </MemoryRouter>
+  );
   const buttons = screen.getAllByRole('button');
   // arrow button, upload a file button, close button, post button
   expect(buttons.length).toBe(4);
@@ -28,15 +43,29 @@ test('render 4 buttons', () => {
 
 test('post button disabled without file', async () => {
   const component = render(
-    <CreatePostModal open closeModal={() => {}} setAlert={() => {}} />
+    <MemoryRouter>
+      <CreatePostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        avatar=""
+      />
+    </MemoryRouter>
   );
   const postBtn = screen.getByRole('button', { name: /Post/ });
   expect(postBtn).toBeDisabled();
 });
 
 it('button available after file upload', async () => {
-  const { container, getByLabelText, getByText, getByAltText } = await render(
-    <CreatePostModal open closeModal={() => {}} setAlert={() => {}} />
+  const { container, getByLabelText, getByText, getByAltText } = render(
+    <MemoryRouter>
+      <CreatePostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        avatar=""
+      />
+    </MemoryRouter>
   );
   window.URL.createObjectURL = jest.fn();
   axios.post = jest.fn();
@@ -55,11 +84,21 @@ it('button available after file upload', async () => {
   const postBtn = await screen.getByRole('button', { name: /Post/ });
 
   expect(postBtn).not.toBeDisabled();
-  userEvent.click(postBtn);
+
+  await act(async () => userEvent.click(postBtn));
 });
 
 test('title and caption change on input', async () => {
-  render(<CreatePostModal open closeModal={() => {}} setAlert={() => {}} />);
+  render(
+    <MemoryRouter>
+      <CreatePostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        avatar=""
+      />
+    </MemoryRouter>
+  );
   const title = screen.getByRole('textbox', { name: 'Title…' });
   // type some text  into the textbox
   await userEvent.type(title, 'some title');

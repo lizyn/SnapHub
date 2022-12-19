@@ -3,6 +3,7 @@
  */
 import { React } from 'react';
 import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
@@ -10,13 +11,15 @@ import CommentRow from './CommentRow';
 
 test('Comment row matches snapshot', () => {
   const component = renderer.create(
-    <CommentRow
-      userId={0}
-      commentText=""
-      commentId={0}
-      commentDel={() => {}}
-      commentEd={() => {}}
-    />
+    <MemoryRouter>
+      <CommentRow
+        userId="0"
+        commentText=""
+        commentId="0"
+        commentDel={() => {}}
+        commentEd={() => {}}
+      />
+    </MemoryRouter>
   );
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
@@ -24,13 +27,15 @@ test('Comment row matches snapshot', () => {
 
 test('click menu button will show edit and delete options', async () => {
   render(
-    <CommentRow
-      userId={0}
-      commentText=""
-      commentId={0}
-      commentDel={() => {}}
-      commentEd={() => {}}
-    />
+    <MemoryRouter>
+      <CommentRow
+        userId="0"
+        commentText=""
+        commentId="0"
+        commentDel={() => {}}
+        commentEd={() => {}}
+      />
+    </MemoryRouter>
   );
   const editMenu = screen.getByRole('button');
   await userEvent.click(editMenu);
@@ -42,13 +47,15 @@ test('click menu button will show edit and delete options', async () => {
 
 test('Clicking save when editing will quit editing mode', async () => {
   render(
-    <CommentRow
-      userId={0}
-      commentText=""
-      commentId={0}
-      commentDel={() => {}}
-      commentEd={() => {}}
-    />
+    <MemoryRouter>
+      <CommentRow
+        userId="0"
+        commentText=""
+        commentId="0"
+        commentDel={() => {}}
+        commentEd={() => {}}
+      />
+    </MemoryRouter>
   );
   const editMenu = screen.getByRole('button');
   await userEvent.click(editMenu);
@@ -60,13 +67,15 @@ test('Clicking save when editing will quit editing mode', async () => {
 
 test('Clicking delete will close menu', async () => {
   render(
-    <CommentRow
-      userId={0}
-      commentText=""
-      commentId={0}
-      commentDel={() => {}}
-      commentEd={() => {}}
-    />
+    <MemoryRouter>
+      <CommentRow
+        userId="0"
+        commentText=""
+        commentId="0"
+        commentDel={() => {}}
+        commentEd={() => {}}
+      />
+    </MemoryRouter>
   );
   const editMenu = screen.getByRole('button');
   await userEvent.click(editMenu);

@@ -4,6 +4,7 @@
 
 import { React } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
@@ -19,7 +20,18 @@ test('Post Modal matches snapshot', () => {
 });
 
 test('render 4 buttons', () => {
-  render(<EditPostModal open closeModal={() => {}} setAlert={() => {}} postId={1} title="" img=""/>);
+  render(
+    <MemoryRouter>
+      <EditPostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        postId="1"
+        title=""
+        img=""
+      />
+    </MemoryRouter>
+  );
   const buttons = screen.getAllByRole('button');
   // arrow button, upload a file button, close button, post button
   expect(buttons.length).toBe(4);
@@ -35,7 +47,16 @@ test('render 4 buttons', () => {
 
 it('button available after file upload', async () => {
   const { container, getByLabelText, getByText, getByAltText } = await render(
-    <EditPostModal open closeModal={() => {}} setAlert={() => {}} postId={1} title="" img="" />
+    <MemoryRouter>
+      <EditPostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        postId="1"
+        title=""
+        img=""
+      />
+    </MemoryRouter>
   );
   window.URL.createObjectURL = jest.fn();
   axios.post = jest.fn();
@@ -55,7 +76,18 @@ it('button available after file upload', async () => {
 });
 
 test('title and caption change on input', async () => {
-  render(<EditPostModal open closeModal={() => {}} setAlert={() => {}} postId={1} title="First Post" img=""/>);
+  render(
+    <MemoryRouter>
+      <EditPostModal
+        open
+        closeModal={() => {}}
+        setAlert={() => {}}
+        postId="1"
+        title="First Post"
+        img=""
+      />
+    </MemoryRouter>
+  );
   // const title = screen.getByRole('textbox', { name: "" });
   // // type some text  into the textbox
   // await userEvent.type(title, 'some title');

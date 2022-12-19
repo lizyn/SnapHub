@@ -46,6 +46,7 @@ function PostDetail(props) {
     setOpen: PropTypes.func.isRequired,
     author: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    postTimeStr: PropTypes.string,
     img: PropTypes.string,
     avatar: PropTypes.string,
     likes: PropTypes.number,
@@ -55,6 +56,7 @@ function PostDetail(props) {
   };
 
   PostDetail.defaultProps = {
+    postTimeStr: 'a while ago',
     img: '/',
     avatar: '/',
     likes: 0
@@ -68,6 +70,7 @@ function PostDetail(props) {
     avatar,
     likes,
     title,
+    postTimeStr,
     postId,
     userId,
     handlePostChange
@@ -211,7 +214,7 @@ function PostDetail(props) {
         img={img}
       />
       <Modal
-        open={open}
+        open={open || false}
         onClose={handleClose}
         aria-labelledby="post-title"
         aria-describedby="post-description"
@@ -251,7 +254,7 @@ function PostDetail(props) {
                 />
               </Link>
               <p className="postUsername">{author}</p>
-              <p className="postTime">20 minutes ago</p>
+              <p className="postTime">{postTimeStr}</p>
             </div>
             <div>
               <button type="submit" onClick={() => handlePostEdit(postId)}>

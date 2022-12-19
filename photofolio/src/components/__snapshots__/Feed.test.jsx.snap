@@ -44,7 +44,7 @@ exports[`Feed component matches snapshot 1`] = `
           <p
             className="postTime"
           >
-            20 minutes ago
+            NaN years ago
           </p>
         </div>
       </div>

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { rootUrl } from './Config';
 import axios from '../api/axios';
+import defaultAvatar from '../images/defaultAvatar.png';
 
 function UserRow(props) {
   UserRow.propTypes = {
@@ -15,8 +16,7 @@ function UserRow(props) {
   };
 
   UserRow.defaultProps = {
-    avatar:
-      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1185.jpg',
+    avatar: defaultAvatar,
     ring: false,
     showFollow: false
   };
@@ -40,10 +40,10 @@ function UserRow(props) {
           data: params
         });
       }
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       return err;
     }
   };
