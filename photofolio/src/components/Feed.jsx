@@ -101,6 +101,7 @@ function Feed(props) {
           postId={postId}
           userId={userId}
           handlePostChange={handlePostChange}
+          handleHidePost={handleHidePost}
         />
       </div>
       <div>
