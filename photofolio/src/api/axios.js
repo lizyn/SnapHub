@@ -5,6 +5,19 @@ const setHeaders =() =>{
   axios.defaults.headers.common['Authorization'] = (sessionStorage.getItem('app-token') !== null) ? sessionStorage.getItem('app-token') : null;
 }
 
+/**
+ * 
+ * deletes any (expired) token and relaunch the app
+ */
+const reAuthenticate = (status) => {
+  if(status === 401){
+    // delete the token
+    sessionStorage.removeItem('app-token');
+    //reload the app
+    window.location.reload(true);
+  }
+}
+
 export default axios.create({
   baseURL: 'http://localhost:8080'
 });
@@ -16,6 +29,7 @@ export const fetchFeeds = async (userId) => {
     const response = await axios.get(`${baseURL}/users/${userId}/feed`);
     return response.data.data;
   } catch (err) {
+    reAuthenticate(401);
     console.error(err);
     return false;
   }
@@ -31,6 +45,7 @@ export const fetchPhotos = async (userId) => {
     const response = await axios.get(`${baseURL}${urlTail}`);
     return response.data.data;
   } catch (err) {
+    reAuthenticate(401);
     console.error(err);
     return err;
   }
@@ -48,6 +63,7 @@ export const fetchUsers = async (userId) => {
     // the data is stored in the mockData
     // field of the response
   } catch (err) {
+    reAuthenticate(401);
     console.error(err);
     return err;
   }
@@ -63,6 +79,7 @@ export const fetchUserPost = async (userId) => {
     const response = await axios.get(URL);
     return response.data.data;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -73,6 +90,7 @@ export const getAComment = async (commentId) => {
     const comment = await axios.get(`${baseURL}/comments/${commentId}`);
     return comment.data.data;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -90,6 +108,7 @@ export const fetchComments = async (postId) => {
     }, Promise.resolve());
     return commentList;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -109,6 +128,7 @@ export const likePosts = async (postId, likeUpdate) => {
     // console.log(response);
     return response;
   } catch (err) {
+    reAuthenticate(401);
     // console.error(err);
     return err;
   }
@@ -124,6 +144,7 @@ export const createComment = async (userId, postId, text) => {
     });
     return response.data.data;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -139,6 +160,7 @@ export const addCommentToPost = async (userId, postId, text) => {
     });
     return response.data.data;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -149,6 +171,7 @@ export const deleteComment = async (commentId) => {
     const response = await axios.delete(`${baseURL}/comments/${commentId}`);
     return response.status;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -159,6 +182,7 @@ export const deletePost = async (postId) => {
     const response = await axios.delete(`${baseURL}/posts/${postId}`);
     return response.status;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
@@ -173,6 +197,7 @@ export const editComment = async (commentId, commentEdit) => {
     });
     return response.status;
   } catch (err) {
+    reAuthenticate(401);
     return err;
   }
 };
