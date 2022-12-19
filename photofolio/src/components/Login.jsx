@@ -5,6 +5,7 @@ import axios from '../api/axios';
 import LoginImage from './LoginImage';
 import './Login.css';
 
+
 function Login() {
   const errRef = useRef();
 
@@ -23,8 +24,7 @@ function Login() {
       const response = await axios.get(
         `/account/username=${user}&password=${pwd}`
       );
-      const example = response.data.data;
-      console.log(example);
+      sessionStorage.setItem('app-token', response.data.token);
       setUser('');
       setPwd('');
       setSuccess(true);
@@ -33,6 +33,8 @@ function Login() {
         setErrMsg('No Server Response');
       } else if (err.response.status === 400) {
         setErrMsg('Missing Username or Password');
+      } else if (err.response.status === 403) {
+        setErrMsg('Account Lockout');
       } else {
         setErrMsg('Login Failed');
       }
