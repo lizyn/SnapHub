@@ -15,7 +15,6 @@ import commentIcon from '../icons/Comment.svg';
 import sendIcon from '../icons/Send.svg';
 import {
   fetchComments,
-  likePosts,
   createComment,
   deleteComment,
   deletePost
@@ -52,7 +51,8 @@ function PostDetail(props) {
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-    handlePostChange: PropTypes.func.isRequired
+    handlePostChange: PropTypes.func.isRequired,
+    handleLikeClickFeed: PropTypes.func.isRequired
   };
 
   PostDetail.defaultProps = {
@@ -72,7 +72,8 @@ function PostDetail(props) {
     postId,
     userId,
     handlePostChange,
-    likedBy
+    likedBy,
+    handleLikeClickFeed
   } = props;
 
   const curUserId = '63899e8d4bd2e0bd159d0e10';
@@ -135,10 +136,10 @@ function PostDetail(props) {
   };
 
   const handleLikeClick = () => {
+    handleLikeClickFeed();
     setPostLiked((currentLike) => !currentLike);
     if (postLiked) setNumLikes(numLikes - 1);
     else setNumLikes(numLikes + 1);
-    likePosts(postId, userId);
   };
 
   const handlePostEdit = async () => {

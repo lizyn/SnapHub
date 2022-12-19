@@ -80,6 +80,7 @@ function Feed(props) {
           postId={postId}
           userId={userId}
           handlePostChange={handlePostChange}
+          handleLikeClickFeed={handleLikeClick}
         />
       </div>
       <div>
