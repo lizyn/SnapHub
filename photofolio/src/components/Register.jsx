@@ -22,6 +22,9 @@ function Register() {
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
 
+  const [fstName, setFstName] = useState('');
+  const [lstName, setLstName] = useState('');
+
   const [pwd, setPwd] = useState('');
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
@@ -48,7 +51,7 @@ function Register() {
 
   useEffect(() => {
     setErrMsg('');
-  }, [user, pwd, matchPwd]);
+  }, [user, pwd, fstName, lstName, matchPwd]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +62,7 @@ function Register() {
       return;
     }
     try {
-      const newUser = { username: user, password: pwd };
+      const newUser = { username: user, password: pwd, firstname: fstName, lastname: lstName };
       const response = await register(newUser);
       console.log(JSON.stringify(response));
       setSuccess(true);
@@ -126,6 +129,34 @@ function Register() {
                 <br />
                 Letters, numbers, underscores, hyphens allowed.
               </p>
+              
+              <label htmlFor="firstname">
+                Firstname:
+                <input
+                  type="text"
+                  id="firstname"
+                  ref={userRef}
+                  autoComplete="off"
+                  onChange={(e) => setFstName(e.target.value)}
+                  value={fstName}
+                  required
+                  aria-describedby="userid"
+                />
+              </label>
+
+              <label htmlFor="lastname">
+                Lastname:
+                <input
+                  type="text"
+                  id="lastname"
+                  ref={userRef}
+                  autoComplete="off"
+                  onChange={(e) => setLstName(e.target.value)}
+                  value={lstName}
+                  required
+                  aria-describedby="userid"
+                />
+              </label>
 
               <label htmlFor="password">
                 Password:
