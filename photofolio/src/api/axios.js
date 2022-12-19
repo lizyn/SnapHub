@@ -146,6 +146,17 @@ export const deletePost = async (postId) => {
   }
 };
 
+export const hidePost = async (postId, userId) => {
+  try {
+    const response = await axios.post(`${baseURL}/users/hidden/${postId}`, {
+      userId
+    });
+    return response.status;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const editComment = async (commentId, commentEdit) => {
   try {
     const currentData = await axios.get(`${baseURL}/comments/${commentId}`);

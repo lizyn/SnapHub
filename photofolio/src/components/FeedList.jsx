@@ -18,11 +18,6 @@ function FeedList() {
       setPosts(postsData);
     }
 
-    // async function fetchPhotoData() {
-    //   const photoData = await fetchPhotos();
-    //   setPhotos(photoData);
-    // }
-
     async function fetchUserData() {
       const userData = await fetchUsers();
       setUsers(userData);
@@ -34,6 +29,11 @@ function FeedList() {
   const feedsList = posts;
   // const photoList = photos;
   const userList = users;
+
+  const handleHidePost = (postId) => {
+    // eslint-disable-next-line no-underscore-dangle
+    setPosts(feedsList.filter((x) => x._id !== postId));
+  };
 
   const populateFeeds = () => {
     const feeds = [];
@@ -59,6 +59,7 @@ function FeedList() {
             // eslint-disable-next-line no-underscore-dangle
             postId={post._id}
             handlePostChange={handlePostChange}
+            handleHidePost={handleHidePost}
           />
         );
       }
