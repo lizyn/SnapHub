@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+// Add the token to all HTTP request
+const setHeaders =() =>{
+  axios.defaults.headers.common['Authorization'] = (sessionStorage.getItem('app-token') !== null) ? sessionStorage.getItem('app-token') : null;
+}
+
 export default axios.create({
   baseURL: 'http://localhost:8080'
 });
@@ -7,6 +12,7 @@ export default axios.create({
 const baseURL = 'http://localhost:8080';
 export const fetchFeeds = async (userId) => {
   try {
+    setHeaders();
     const response = await axios.get(`${baseURL}/users/${userId}/feed`);
     return response.data.data;
   } catch (err) {
@@ -21,6 +27,7 @@ export const fetchPhotos = async (userId) => {
     urlTail = `/user/${userId}/photos`;
   }
   try {
+    setHeaders();
     const response = await axios.get(`${baseURL}${urlTail}`);
     return response.data.data;
   } catch (err) {
@@ -35,6 +42,7 @@ export const fetchUsers = async (userId) => {
     URL = `${baseURL}/users/${userId}`;
   }
   try {
+    setHeaders();
     const response = await axios.get(URL);
     return response.data.data;
     // the data is stored in the mockData
@@ -51,6 +59,7 @@ export const fetchUserPost = async (userId) => {
     URL = `${baseURL}/users/${userId}/posts`;
   }
   try {
+    setHeaders();
     const response = await axios.get(URL);
     return response.data.data;
   } catch (err) {
@@ -60,6 +69,7 @@ export const fetchUserPost = async (userId) => {
 
 export const getAComment = async (commentId) => {
   try {
+    setHeaders();
     const comment = await axios.get(`${baseURL}/comments/${commentId}`);
     return comment.data.data;
   } catch (err) {
@@ -70,6 +80,7 @@ export const getAComment = async (commentId) => {
 export const fetchComments = async (postId) => {
   const commentList = [];
   try {
+    setHeaders();
     const post = await axios.get(`${baseURL}/posts/${postId}`);
     const commentIds = post.data.data[0].comments;
     await commentIds.reduce(async (prev, id) => {
@@ -85,6 +96,7 @@ export const fetchComments = async (postId) => {
 
 export const likePosts = async (postId, likeUpdate) => {
   try {
+    setHeaders();
     const currentData = await axios.get(`${baseURL}/posts/${postId}`);
     // console.log({
     //   ...currentData.data.data[0],
@@ -104,6 +116,7 @@ export const likePosts = async (postId, likeUpdate) => {
 
 export const createComment = async (userId, postId, text) => {
   try {
+    setHeaders();
     const response = await axios.post(`${baseURL}/comments/`, {
       userId,
       postId,
@@ -117,6 +130,7 @@ export const createComment = async (userId, postId, text) => {
 
 export const addCommentToPost = async (userId, postId, text) => {
   try {
+    setHeaders();
     const response = await axios.post(`${baseURL}/comments`, {
       id: 0,
       userId,
@@ -131,6 +145,7 @@ export const addCommentToPost = async (userId, postId, text) => {
 
 export const deleteComment = async (commentId) => {
   try {
+    setHeaders();
     const response = await axios.delete(`${baseURL}/comments/${commentId}`);
     return response.status;
   } catch (err) {
@@ -140,6 +155,7 @@ export const deleteComment = async (commentId) => {
 
 export const deletePost = async (postId) => {
   try {
+    setHeaders();
     const response = await axios.delete(`${baseURL}/posts/${postId}`);
     return response.status;
   } catch (err) {
@@ -149,6 +165,7 @@ export const deletePost = async (postId) => {
 
 export const editComment = async (commentId, commentEdit) => {
   try {
+    setHeaders();
     const currentData = await axios.get(`${baseURL}/comments/${commentId}`);
     const response = await axios.put(`${baseURL}/comments/${commentId}`, {
       ...currentData.data,

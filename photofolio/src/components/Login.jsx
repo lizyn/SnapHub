@@ -5,6 +5,7 @@ import axios from '../api/axios';
 import LoginImage from './LoginImage';
 import './Login.css';
 
+
 function Login() {
   const errRef = useRef();
 
@@ -23,8 +24,7 @@ function Login() {
       const response = await axios.get(
         `/account/username=${user}&password=${pwd}`
       );
-      const example = response.data.data;
-      console.log(example);
+      sessionStorage.setItem('app-token', response.data.token);
       setUser('');
       setPwd('');
       setSuccess(true);
