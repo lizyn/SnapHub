@@ -52,11 +52,12 @@ function Feed(props) {
 
   const handleLikeClick = () => {
     setPostLiked((currentLike) => !currentLike);
-    if (!postLiked) {
-      likePosts(postId, likes + 1);
-    } else {
-      likePosts(postId, likes);
-    }
+    likePosts(postId, userId);
+    // if (!postLiked) {
+    //   likePosts(postId, userId);
+    // } else {
+    //   likePosts(postId, userId);
+    // }
   };
 
   return (
