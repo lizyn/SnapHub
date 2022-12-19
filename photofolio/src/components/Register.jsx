@@ -6,13 +6,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
-// import axios from '../api/axios';
 import './Register.css';
 import { register } from '../api/axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-// const REGISTER_URL = '/register';
 
 function Register() {
   const userRef = useRef();
@@ -53,6 +51,10 @@ function Register() {
     setErrMsg('');
   }, [user, pwd, fstName, lstName, matchPwd]);
 
+  const toLogin = () => {
+    window.location.replace("/login");
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const v1 = USER_REGEX.test(user);
@@ -78,7 +80,9 @@ function Register() {
           <section>
             <h1>Success!</h1>
             <p>
-              <Link to="/login">Sign In</Link>
+              <div onClick={toLogin}>
+                Login
+              </div>  
             </p>
           </section>
         ) : (
