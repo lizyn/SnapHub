@@ -79,11 +79,9 @@ function Register() {
         {success ? (
           <section>
             <h1>Success!</h1>
-            <p>
-              <div onClick={toLogin}>
-                Login
-              </div>  
-            </p>
+            <div onClick={toLogin}>
+              Login
+            </div>
           </section>
         ) : (
           <section>
