@@ -19,6 +19,7 @@ function Feed(props) {
     img: PropTypes.string,
     avatar: PropTypes.string,
     likes: PropTypes.number.isRequired,
+    likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     msAge: PropTypes.number,
     commentIds: PropTypes.arrayOf(PropTypes.string),
@@ -44,10 +45,15 @@ function Feed(props) {
     msAge,
     postId,
     userId,
-    handlePostChange
+    handlePostChange,
+    likedBy
   } = props;
+
+  const curUserId = '63899e8d4bd2e0bd159d0e10';
+
   const [detailOpen, setDetailOpen] = useState(false);
-  const [postLiked, setPostLiked] = useState(false);
+  const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
+  const [numLikes, setNumLikes] = useState(likes);
 
   const handleClick = () => {
     setDetailOpen(true);
@@ -55,11 +61,9 @@ function Feed(props) {
 
   const handleLikeClick = () => {
     setPostLiked((currentLike) => !currentLike);
-    if (!postLiked) {
-      likePosts(postId, likes + 1);
-    } else {
-      likePosts(postId, likes);
-    }
+    if (postLiked) setNumLikes(numLikes - 1);
+    else setNumLikes(numLikes + 1);
+    likePosts(postId, userId);
   };
 
   const parsePostTime = (ms) => {
@@ -91,6 +95,7 @@ function Feed(props) {
           avatar={avatar}
           img={img}
           likes={likes}
+          likedBy={likedBy}
           commentIds={commentIds}
           title={title}
           postTimeStr={postTimeStr}
@@ -98,6 +103,7 @@ function Feed(props) {
           postId={postId}
           userId={userId}
           handlePostChange={handlePostChange}
+          handleLikeClickFeed={handleLikeClick}
         />
       </div>
       <div>
@@ -131,7 +137,9 @@ function Feed(props) {
                     <LikeIconOutlined />
                   )}
                 </IconButton>
-                <p>{postLiked ? `${likes + 1} Likes` : `${likes} Likes`}</p>
+                <p>
+                  {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
+                </p>
               </div>
               <div className="stats">
                 <ForumOutlinedIcon />
