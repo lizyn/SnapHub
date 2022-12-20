@@ -43,7 +43,7 @@ function ProfilePage(props) {
   useEffect(() => {
     setPhotos([]);
     async function fetchUser() {
-      if (!userId) userId = '63899e8d4bd2e0bd159d0e10';
+      if (!userId) userId = sessionStorage.getItem('user');
       const userData = await fetchUsers(userId);
       if (userData) {
         setUser(userData[0]);
@@ -70,7 +70,7 @@ function ProfilePage(props) {
     fetchPhotoData();
     // followStatus();
     // console.log(userId);
-  }, []);
+  }, [userId]);
 
   // const orange = createTheme({
   //   status: {
