@@ -56,7 +56,8 @@ function PostDetail(props) {
     handlePostChange: PropTypes.func.isRequired,
     liked: PropTypes.bool,
     handleHidePost: PropTypes.func.isRequired,
-    handleLikeClickFeed: PropTypes.func.isRequired
+    handleLikeClickFeed: PropTypes.func.isRequired,
+    curUserId: PropTypes.string.isRequired
   };
 
   PostDetail.defaultProps = {
@@ -81,7 +82,8 @@ function PostDetail(props) {
     numberLikes,
     liked,
     handleHidePost,
-    handleLikeClickFeed
+    handleLikeClickFeed,
+    curUserId
   } = props;
 
   const [comments, setComments] = useState([]);

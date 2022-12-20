@@ -53,9 +53,9 @@ function Feed(props) {
     handlePostChange,
     likedBy,
     handleHidePost,
-    likedBy
+    curUserId
   } = props;
-  
+
   const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -73,7 +73,6 @@ function Feed(props) {
     else setNumLikes(numLikes + 1);
     likePosts(postId, curUserId);
   };
-
 
   const handleCommentMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -130,6 +129,7 @@ function Feed(props) {
           handlePostChange={handlePostChange}
           handleHidePost={handleHidePost}
           handleLikeClickFeed={handleLikeClick}
+          curUserId={curUserId}
         />
       </div>
       <div>
@@ -145,7 +145,7 @@ function Feed(props) {
               <div className="post-head-detail">
                 <p className="postUsername">{author}</p>
                 <p className="postTime">{postTimeStr}</p>
-                </div>
+              </div>
             </div>
             <div className="postHeadButton">
               <IconButton
