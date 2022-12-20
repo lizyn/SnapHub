@@ -314,7 +314,7 @@ function PostDetail(props) {
                     )}
                   </IconButton>
                   <p>
-                    {num <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
+                    {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
                   </p>
                 </div>
                 <div className="post-detail-stats">
