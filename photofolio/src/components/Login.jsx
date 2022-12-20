@@ -5,7 +5,6 @@ import axios from '../api/axios';
 import LoginImage from './LoginImage';
 import './Login.css';
 
-
 function Login() {
   const errRef = useRef();
 

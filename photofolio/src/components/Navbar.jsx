@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -14,8 +16,8 @@ function Navbar(props) {
 
   const handleLogout = () => {
     sessionStorage.removeItem('app-token');
-    window.location.replace("/login");
-  }
+    window.location.replace('/login');
+  };
 
   const { setPostModalOpen } = props;
 
@@ -27,7 +29,7 @@ function Navbar(props) {
             <div
               to="/logout"
               style={{ textDecoration: 'none', color: 'inherit' }}
-              onClick = {handleLogout}
+              onClick={handleLogout}
             >
               <img src={logoutIcon} alt="logout" />
               Log Out

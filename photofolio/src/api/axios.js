@@ -1,22 +1,25 @@
 import axios from 'axios';
 
 // Add the token to all HTTP request
-const setHeaders =() =>{
-  axios.defaults.headers.common['Authorization'] = (sessionStorage.getItem('app-token') !== null) ? sessionStorage.getItem('app-token') : null;
-}
+const setHeaders = () => {
+  axios.defaults.headers.common.Authorization =
+    sessionStorage.getItem('app-token') !== null
+      ? sessionStorage.getItem('app-token')
+      : null;
+};
 
 /**
- * 
+ *
  * deletes any (expired) token and relaunch the app
  */
 const reAuthenticate = (status) => {
-  if(status === 401){
+  if (status === 401) {
     // delete the token
     sessionStorage.removeItem('app-token');
-    //reload the app
+    // reload the app
     window.location.reload(true);
   }
-}
+};
 
 export default axios.create({
   baseURL: 'http://localhost:8080'
