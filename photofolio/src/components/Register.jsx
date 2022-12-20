@@ -52,8 +52,9 @@ function Register() {
   }, [user, pwd, fstName, lstName, matchPwd]);
 
   const toLogin = () => {
-    window.location.replace("/login");
-  }
+    // eslint-disable-next-line no-undef
+    window.location.replace('/login');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,7 +65,12 @@ function Register() {
       return;
     }
     try {
-      const newUser = { username: user, password: pwd, firstname: fstName, lastname: lstName };
+      const newUser = {
+        username: user,
+        password: pwd,
+        firstname: fstName,
+        lastname: lstName
+      };
       const response = await register(newUser);
       console.log(JSON.stringify(response));
       setSuccess(true);
@@ -79,9 +85,9 @@ function Register() {
         {success ? (
           <section>
             <h1>Success!</h1>
-            <div onClick={toLogin}>
+            <button type="submit" onClick={toLogin}>
               Login
-            </div>
+            </button>
           </section>
         ) : (
           <section>
@@ -131,7 +137,7 @@ function Register() {
                 <br />
                 Letters, numbers, underscores, hyphens allowed.
               </p>
-              
+
               <label htmlFor="firstname">
                 Firstname:
                 <input

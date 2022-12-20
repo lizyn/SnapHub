@@ -1,30 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
+import PropTypes from 'prop-types';
 import Feed from './Feed';
 import { fetchFeeds, fetchUsers } from '../api/axios';
 
-function FeedList() {
+function FeedList(props) {
+  FeedList.propTypes = {
+    curUserId: PropTypes.string
+  };
+
+  FeedList.defaultProps = {
+    curUserId: ''
+  };
+
+  const { curUserId } = props;
+
   const [posts, setPosts] = useState([]);
-  // const [photos, setPhotos] = useState([]);
   const [users, setUsers] = useState([]);
-  const userId = '63899e8d4bd2e0bd159d0e10';
+
   const handlePostChange = (postId) => {
     const updatedPosts = posts.filter((x) => x.id !== postId);
     setPosts(updatedPosts);
   };
+
   useEffect(() => {
     async function fetchData() {
-      const postsData = await fetchFeeds(userId);
+      const postsData = await fetchFeeds(curUserId);
       setPosts(postsData);
     }
-
     async function fetchUserData() {
       const userData = await fetchUsers();
       setUsers(userData);
     }
     fetchData();
     fetchUserData();
-  }, []);
+  }, [curUserId]);
 
   const feedsList = posts;
   // const photoList = photos;
@@ -61,6 +71,7 @@ function FeedList() {
             postId={post._id}
             msAge={now - Date.parse(post.date)}
             handlePostChange={handlePostChange}
+            curUserId={curUserId}
             handleHidePost={handleHidePost}
           />
         );

@@ -5,7 +5,6 @@ import axios from '../api/axios';
 import LoginImage from './LoginImage';
 import './Login.css';
 
-
 function Login() {
   const errRef = useRef();
 
@@ -24,7 +23,12 @@ function Login() {
       const response = await axios.get(
         `/account/username=${user}&password=${pwd}`
       );
+      // eslint-disable-next-line no-undef
       sessionStorage.setItem('app-token', response.data.token);
+      // eslint-disable-next-line no-underscore-dangle
+      sessionStorage.setItem('user', response.data.data._id);
+      // eslint-disable-next-line no-underscore-dangle
+      console.log(response.data.data._id);
       setUser('');
       setPwd('');
       setSuccess(true);

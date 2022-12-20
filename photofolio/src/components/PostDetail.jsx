@@ -49,12 +49,13 @@ function PostDetail(props) {
     postTimeStr: PropTypes.string,
     img: PropTypes.string,
     avatar: PropTypes.string,
-    likes: PropTypes.number,
-    likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
+    numberLikes: PropTypes.number,
+    // likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
-    handleHidePost: PropTypes.func.isRequired
+    liked: PropTypes.bool,
+    handleHidePost: PropTypes.func.isRequired,
     handleLikeClickFeed: PropTypes.func.isRequired
   };
 
@@ -62,7 +63,8 @@ function PostDetail(props) {
     postTimeStr: 'a while ago',
     img: '/',
     avatar: '/',
-    likes: 0
+    numberLikes: 0,
+    liked: false
   };
 
   const {
@@ -71,22 +73,20 @@ function PostDetail(props) {
     img,
     author,
     avatar,
-    likes,
     title,
     postTimeStr,
     postId,
     userId,
     handlePostChange,
-    likedBy,
+    numberLikes,
+    liked,
     handleHidePost,
     handleLikeClickFeed
   } = props;
 
-  const curUserId = '63899e8d4bd2e0bd159d0e10';
-
   const [comments, setComments] = useState([]);
-  const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
-  const [numLikes, setNumLikes] = useState(likes);
+  const [postLiked, setPostLiked] = useState(liked);
+  const [numLikes, setNumLikes] = useState(numberLikes);
   const [commentInput, setCommentInput] = useState('');
   const [commentSubmit, setCommentSubmit] = useState('');
   const [mentionCandidates, setMentionCandidates] = useState([]);
@@ -129,7 +129,9 @@ function PostDetail(props) {
       }
     }
     fetchData();
-  }, [commentSubmit, postDeleted, commentEdited]);
+    setPostLiked(liked);
+    setNumLikes(numberLikes);
+  }, [commentSubmit, postDeleted, commentEdited, liked]);
 
   useEffect(() => {
     getMentionCandidates();

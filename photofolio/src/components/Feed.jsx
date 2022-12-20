@@ -29,6 +29,7 @@ function Feed(props) {
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
+    curUserId: PropTypes.string.isRequired,
     handleHidePost: PropTypes.func.isRequired
   };
 
@@ -50,17 +51,17 @@ function Feed(props) {
     postId,
     userId,
     handlePostChange,
+    likedBy,
     handleHidePost,
     likedBy
   } = props;
-
-  const curUserId = '63899e8d4bd2e0bd159d0e10';
-
+  
   const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
   const [detailOpen, setDetailOpen] = useState(false);
   const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
   const [numLikes, setNumLikes] = useState(likes);
+  console.log('likedby', likedBy.includes(curUserId), 'includes', curUserId);
 
   const handleClick = () => {
     setDetailOpen(true);
@@ -70,7 +71,7 @@ function Feed(props) {
     setPostLiked((currentLike) => !currentLike);
     if (postLiked) setNumLikes(numLikes - 1);
     else setNumLikes(numLikes + 1);
-    likePosts(postId, userId);
+    likePosts(postId, curUserId);
   };
 
 
@@ -124,6 +125,8 @@ function Feed(props) {
           commentNum={commentIds.length}
           postId={postId}
           userId={userId}
+          liked={postLiked}
+          numberLikes={numLikes}
           handlePostChange={handlePostChange}
           handleHidePost={handleHidePost}
           handleLikeClickFeed={handleLikeClick}
