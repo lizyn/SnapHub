@@ -12,17 +12,19 @@ function UserRow(props) {
     name: PropTypes.string.isRequired,
     ring: PropTypes.bool,
     showFollow: PropTypes.bool,
+    isFollowing: PropTypes.bool,
     userId: PropTypes.string.isRequired
   };
 
   UserRow.defaultProps = {
     avatar: defaultAvatar,
     ring: false,
-    showFollow: false
+    showFollow: false,
+    isFollowing: false
   };
-  const { avatar, name, ring, showFollow, userId } = props;
+  const { avatar, name, ring, showFollow, userId, isFollowing } = props;
   const [followBtn, setFollowBtn] = useState('outlined');
-  const [followed, setFollowed] = useState(false);
+  const [followed, setFollowed] = useState(isFollowing || false);
 
   const currentUserId = '63899e8d4bd2e0bd159d0e10';
   const toggleFollow = async (userIdToFollow, isFollow) => {
