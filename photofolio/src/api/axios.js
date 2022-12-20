@@ -200,3 +200,8 @@ export const register = async (newUser) => {
     throw new Error(err);
   }
 };
+
+export const fetchCurUser = async (userId) => {
+  const response = await axios.get(`${baseURL}/users/${userId}`);
+  return response.data.data;
+};

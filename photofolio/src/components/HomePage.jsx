@@ -10,7 +10,7 @@ import CreatePostModal from './CreatePostModal';
 // import searchIcon from '../icons/Search.svg';
 import NewIcon from '../icons/New.svg';
 import UserList from './UserList';
-import { fetchUsers } from '../api/axios';
+import { fetchCurUser } from '../api/axios';
 
 function HomePage(props) {
   HomePage.propTypes = {
@@ -35,19 +35,19 @@ function HomePage(props) {
       }
     }
   });
-  const userId = '63899e8d4bd2e0bd159d0e10';
   const [user, setUser] = useState({
-    firstName: 'Efren',
-    lastName: 'McDermott',
-    avatar:
-      'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/733.jpg'
+    firstName: '',
+    lastName: '',
+    avatar: '/'
   });
+
   useEffect(() => {
-    async function fetchUserData() {
-      const userData = await fetchUsers(userId);
+    async function getCurUser() {
+      const token = sessionStorage.getItem('user');
+      const userData = await fetchCurUser(token);
       setUser(userData[0]);
     }
-    fetchUserData();
+    getCurUser();
   }, []);
 
   return (
@@ -111,7 +111,8 @@ function HomePage(props) {
           </div>
 
           <div className="feed">
-            <FeedList />
+            {/* eslint-disable-next-line no-underscore-dangle */}
+            <FeedList curUserId={user._id} />
           </div>
         </div>
       </div>
