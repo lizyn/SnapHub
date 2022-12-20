@@ -13,9 +13,11 @@ function Navbar(props) {
   };
 
   const handleLogout = () => {
+    // eslint-disable-next-line no-undef
     sessionStorage.removeItem('app-token');
-    window.location.replace("/login");
-  }
+    // eslint-disable-next-line no-undef
+    window.location.replace('/login');
+  };
 
   const { setPostModalOpen } = props;
 
@@ -24,14 +26,15 @@ function Navbar(props) {
       <nav className="Navbar">
         <ul>
           <li>
-            <div
+            <button
+              type="submit"
               to="/logout"
               style={{ textDecoration: 'none', color: 'inherit' }}
-              onClick = {handleLogout}
+              onClick={handleLogout}
             >
               <img src={logoutIcon} alt="logout" />
               Log Out
-            </div>
+            </button>
           </li>
           <li>
             <Link
