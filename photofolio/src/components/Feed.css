@@ -19,9 +19,13 @@
 .postHead{
     display: flex;
     flex-direction: row;
-    justify-content: start;
+    justify-content: space-between;
     margin: 0 0 1em 1em;
     padding-top: 1em;
+}
+
+.postHeadButton{
+    margin-right:1em;
 }
 
 .post-head-detail{

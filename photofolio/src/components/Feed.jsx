@@ -7,8 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import LikeIconOutlined from '@mui/icons-material/ThumbUpOutlined';
 import LikeIconFilled from '@mui/icons-material/ThumbUp';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { likePosts, hidePost } from '../api/axios';
 import PostDetail from './PostDetail';
-import { likePosts } from '../api/axios';
 
 import sendIcon from '../icons/Send.svg';
 // import post1 from '../images/post1.jpg';
@@ -26,7 +29,8 @@ function Feed(props) {
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
-    curUserId: PropTypes.string.isRequired
+    curUserId: PropTypes.string.isRequired,
+    handleHidePost: PropTypes.func.isRequired
   };
 
   Feed.defaultProps = {
@@ -48,9 +52,12 @@ function Feed(props) {
     userId,
     handlePostChange,
     likedBy,
-    curUserId
+    handleHidePost,
+    likedBy
   } = props;
-
+  
+  const [anchorEl, setAnchorEl] = useState(false);
+  const open = Boolean(anchorEl);
   const [detailOpen, setDetailOpen] = useState(false);
   const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
   const [numLikes, setNumLikes] = useState(likes);
@@ -65,6 +72,21 @@ function Feed(props) {
     if (postLiked) setNumLikes(numLikes - 1);
     else setNumLikes(numLikes + 1);
     likePosts(postId, curUserId);
+  };
+
+
+  const handleCommentMenuClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleHideClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleHideClick = () => {
+    hidePost(postId, curUserId);
+    handleHidePost(postId);
+    handleHideClose();
   };
 
   const parsePostTime = (ms) => {
@@ -106,21 +128,47 @@ function Feed(props) {
           liked={postLiked}
           numberLikes={numLikes}
           handlePostChange={handlePostChange}
+          handleHidePost={handleHidePost}
           handleLikeClickFeed={handleLikeClick}
         />
       </div>
       <div>
         <div className="post">
           <div className="postHead">
-            <Avatar
-              alt="me"
-              className="Avatar"
-              src={avatar}
-              sx={{ width: 50, height: 50, marginTop: 1, marginBottom: 1 }}
-            />
-            <div className="post-head-detail">
-              <p className="postUsername">{author}</p>
-              <p className="postTime">{postTimeStr}</p>
+            <div>
+              <Avatar
+                alt="me"
+                className="Avatar"
+                src={avatar}
+                sx={{ width: 50, height: 50, marginTop: 1, marginBottom: 1 }}
+              />
+              <div className="post-head-detail">
+                <p className="postUsername">{author}</p>
+                <p className="postTime">{postTimeStr}</p>
+                </div>
+            </div>
+            <div className="postHeadButton">
+              <IconButton
+                className="comment-row-button"
+                id="edit-button"
+                aria-controls={open ? 'edit-drop-down' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleCommentMenuClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="edit-drop-down"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleHideClose}
+                MenuListProps={{
+                  'aria-labelledby': 'edit-button'
+                }}
+              >
+                <MenuItem onClick={handleHideClick}>Hide Post</MenuItem>
+              </Menu>
             </div>
           </div>
           <button type="button" onClick={handleClick}>

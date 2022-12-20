@@ -17,7 +17,8 @@ import {
   fetchComments,
   createComment,
   deleteComment,
-  deletePost
+  deletePost,
+  hidePost
 } from '../api/axios';
 import CommentRow from './CommentRow';
 import './PostDetail.css';
@@ -53,8 +54,9 @@ function PostDetail(props) {
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
-    handleLikeClickFeed: PropTypes.func.isRequired,
-    liked: PropTypes.bool
+    liked: PropTypes.bool,
+    handleHidePost: PropTypes.func.isRequired,
+    handleLikeClickFeed: PropTypes.func.isRequired
   };
 
   PostDetail.defaultProps = {
@@ -78,6 +80,7 @@ function PostDetail(props) {
     handlePostChange,
     numberLikes,
     liked,
+    handleHidePost,
     handleLikeClickFeed
   } = props;
 
@@ -150,6 +153,12 @@ function PostDetail(props) {
   const handlePostEdit = async () => {
     setOpen(false);
     setTestState((x) => !x);
+  };
+
+  const handleHideClick = async () => {
+    setOpen(false);
+    hidePost(postId, curUserId);
+    handleHidePost(postId);
   };
 
   const handlePostDelete = async (id) => {
@@ -277,6 +286,13 @@ function PostDetail(props) {
               >
                 Delete Post
               </button>
+              <button
+                type="submit"
+                className="deleteButton"
+                onClick={handleHideClick}
+              >
+                Hide Post
+              </button>
             </div>
             <div className="post-detail-comments">{allComments}</div>
             <div className="post-detail-actions">
@@ -298,7 +314,7 @@ function PostDetail(props) {
                     )}
                   </IconButton>
                   <p>
-                    {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
+                    {num <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
                   </p>
                 </div>
                 <div className="post-detail-stats">

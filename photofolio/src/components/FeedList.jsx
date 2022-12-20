@@ -40,6 +40,11 @@ function FeedList(props) {
   // const photoList = photos;
   const userList = users;
 
+  const handleHidePost = (postId) => {
+    // eslint-disable-next-line no-underscore-dangle
+    setPosts(feedsList.filter((x) => x._id !== postId));
+  };
+
   const populateFeeds = () => {
     const feeds = [];
     if (!userList || !feedsList) return feeds;
@@ -67,6 +72,7 @@ function FeedList(props) {
             msAge={now - Date.parse(post.date)}
             handlePostChange={handlePostChange}
             curUserId={curUserId}
+            handleHidePost={handleHidePost}
           />
         );
       }
