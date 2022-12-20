@@ -6,13 +6,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, BrowserRouter as Router } from 'react-router-dom';
-// import axios from '../api/axios';
 import './Register.css';
 import { register } from '../api/axios';
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-// const REGISTER_URL = '/register';
 
 function Register() {
   const userRef = useRef();
@@ -21,6 +19,9 @@ function Register() {
   const [user, setUser] = useState('');
   const [validName, setValidName] = useState(false);
   const [userFocus, setUserFocus] = useState(false);
+
+  const [fstName, setFstName] = useState('');
+  const [lstName, setLstName] = useState('');
 
   const [pwd, setPwd] = useState('');
   const [validPwd, setValidPwd] = useState(false);
@@ -48,7 +49,11 @@ function Register() {
 
   useEffect(() => {
     setErrMsg('');
-  }, [user, pwd, matchPwd]);
+  }, [user, pwd, fstName, lstName, matchPwd]);
+
+  const toLogin = () => {
+    window.location.replace("/login");
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,7 +64,7 @@ function Register() {
       return;
     }
     try {
-      const newUser = { username: user, password: pwd };
+      const newUser = { username: user, password: pwd, firstname: fstName, lastname: lstName };
       const response = await register(newUser);
       console.log(JSON.stringify(response));
       setSuccess(true);
@@ -74,9 +79,9 @@ function Register() {
         {success ? (
           <section>
             <h1>Success!</h1>
-            <p>
-              <Link to="/login">Sign In</Link>
-            </p>
+            <div onClick={toLogin}>
+              Login
+            </div>
           </section>
         ) : (
           <section>
@@ -126,6 +131,34 @@ function Register() {
                 <br />
                 Letters, numbers, underscores, hyphens allowed.
               </p>
+              
+              <label htmlFor="firstname">
+                Firstname:
+                <input
+                  type="text"
+                  id="firstname"
+                  ref={userRef}
+                  autoComplete="off"
+                  onChange={(e) => setFstName(e.target.value)}
+                  value={fstName}
+                  required
+                  aria-describedby="userid"
+                />
+              </label>
+
+              <label htmlFor="lastname">
+                Lastname:
+                <input
+                  type="text"
+                  id="lastname"
+                  ref={userRef}
+                  autoComplete="off"
+                  onChange={(e) => setLstName(e.target.value)}
+                  value={lstName}
+                  required
+                  aria-describedby="userid"
+                />
+              </label>
 
               <label htmlFor="password">
                 Password:
