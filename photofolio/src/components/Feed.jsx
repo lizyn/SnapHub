@@ -24,6 +24,7 @@ function Feed(props) {
     likes: PropTypes.number.isRequired,
     likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
+    msAge: PropTypes.number,
     commentIds: PropTypes.arrayOf(PropTypes.string),
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
@@ -32,6 +33,7 @@ function Feed(props) {
   };
 
   Feed.defaultProps = {
+    msAge: 0,
     img: '/',
     avatar: '/',
     commentIds: []
@@ -44,6 +46,7 @@ function Feed(props) {
     likes,
     commentIds,
     title,
+    msAge,
     postId,
     userId,
     handlePostChange,
@@ -70,6 +73,7 @@ function Feed(props) {
     likePosts(postId, userId);
   };
 
+
   const handleCommentMenuClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -84,6 +88,25 @@ function Feed(props) {
     handleHideClose();
   };
 
+  const parsePostTime = (ms) => {
+    let postTimeStr;
+    if (ms < 0) postTimeStr = 'a while ago';
+    else if (ms < 1000 * 60) postTimeStr = `${Math.floor(ms / 1000)} secs ago`;
+    else if (ms < 1000 * 60 * 60)
+      postTimeStr = `${Math.floor(ms / 1000 / 60)} mins ago`;
+    else if (ms < 1000 * 60 * 60 * 24)
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60)} hours ago`;
+    else if (ms < 1000 * 60 * 60 * 24 * 30)
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60 / 24)} days ago`;
+    else if (ms < 1000 * 60 * 60 * 24 * 30 * 12)
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60 / 24 / 30)} months ago`;
+    else
+      postTimeStr = `${Math.floor(ms / 1000 / 60 / 60 / 24 / 365)} years ago`;
+    return postTimeStr;
+  };
+
+  const postTimeStr = parsePostTime(msAge);
+
   return (
     <div>
       <div style={{ display: 'none' }}>
@@ -97,11 +120,13 @@ function Feed(props) {
           likedBy={likedBy}
           commentIds={commentIds}
           title={title}
+          postTimeStr={postTimeStr}
           commentNum={commentIds.length}
           postId={postId}
           userId={userId}
           handlePostChange={handlePostChange}
           handleHidePost={handleHidePost}
+          handleLikeClickFeed={handleLikeClick}
         />
       </div>
       <div>
@@ -116,8 +141,8 @@ function Feed(props) {
               />
               <div className="post-head-detail">
                 <p className="postUsername">{author}</p>
-                <p className="postTime">20 minutes ago</p>
-              </div>
+                <p className="postTime">{postTimeStr}</p>
+                </div>
             </div>
             <div className="postHeadButton">
               <IconButton

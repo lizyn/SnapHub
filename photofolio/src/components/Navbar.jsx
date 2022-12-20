@@ -12,6 +12,11 @@ function Navbar(props) {
     setPostModalOpen: PropTypes.func.isRequired
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('app-token');
+    window.location.replace("/login");
+  }
+
   const { setPostModalOpen } = props;
 
   return (
@@ -19,13 +24,14 @@ function Navbar(props) {
       <nav className="Navbar">
         <ul>
           <li>
-            <Link
+            <div
               to="/logout"
               style={{ textDecoration: 'none', color: 'inherit' }}
+              onClick = {handleLogout}
             >
               <img src={logoutIcon} alt="logout" />
               Log Out
-            </Link>
+            </div>
           </li>
           <li>
             <Link

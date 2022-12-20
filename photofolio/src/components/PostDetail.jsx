@@ -15,7 +15,6 @@ import commentIcon from '../icons/Comment.svg';
 import sendIcon from '../icons/Send.svg';
 import {
   fetchComments,
-  likePosts,
   createComment,
   deleteComment,
   deletePost,
@@ -47,6 +46,7 @@ function PostDetail(props) {
     setOpen: PropTypes.func.isRequired,
     author: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    postTimeStr: PropTypes.string,
     img: PropTypes.string,
     avatar: PropTypes.string,
     likes: PropTypes.number,
@@ -55,9 +55,11 @@ function PostDetail(props) {
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
     handleHidePost: PropTypes.func.isRequired
+    handleLikeClickFeed: PropTypes.func.isRequired
   };
 
   PostDetail.defaultProps = {
+    postTimeStr: 'a while ago',
     img: '/',
     avatar: '/',
     likes: 0
@@ -71,11 +73,13 @@ function PostDetail(props) {
     avatar,
     likes,
     title,
+    postTimeStr,
     postId,
     userId,
     handlePostChange,
     likedBy,
-    handleHidePost
+    handleHidePost,
+    handleLikeClickFeed
   } = props;
 
   const curUserId = '63899e8d4bd2e0bd159d0e10';
@@ -138,10 +142,10 @@ function PostDetail(props) {
   };
 
   const handleLikeClick = () => {
+    handleLikeClickFeed();
     setPostLiked((currentLike) => !currentLike);
     if (postLiked) setNumLikes(numLikes - 1);
     else setNumLikes(numLikes + 1);
-    likePosts(postId, userId);
   };
 
   const handlePostEdit = async () => {
@@ -265,7 +269,7 @@ function PostDetail(props) {
                 />
               </Link>
               <p className="postUsername">{author}</p>
-              <p className="postTime">20 minutes ago</p>
+              <p className="postTime">{postTimeStr}</p>
             </div>
             <div>
               <button type="submit" onClick={() => handlePostEdit(postId)}>

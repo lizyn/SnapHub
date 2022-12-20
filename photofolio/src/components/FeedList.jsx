@@ -38,6 +38,7 @@ function FeedList() {
   const populateFeeds = () => {
     const feeds = [];
     if (!userList || !feedsList) return feeds;
+    const now = Date.now();
     feedsList.forEach((post) => {
       // const photo = photoList.find((x) => x.postId === post.id);
       // eslint-disable-next-line no-underscore-dangle
@@ -58,12 +59,14 @@ function FeedList() {
             title={post.title}
             // eslint-disable-next-line no-underscore-dangle
             postId={post._id}
+            msAge={now - Date.parse(post.date)}
             handlePostChange={handlePostChange}
             handleHidePost={handleHidePost}
           />
         );
       }
     });
+    feeds.sort((a, b) => b.props.msAge - a.props.msAge);
     return feeds;
   };
   let feeds = <CircularProgress />;
