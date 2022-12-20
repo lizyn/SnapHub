@@ -17,7 +17,8 @@ import {
   fetchComments,
   createComment,
   deleteComment,
-  deletePost
+  deletePost,
+  hidePost
 } from '../api/axios';
 import CommentRow from './CommentRow';
 import './PostDetail.css';
@@ -53,6 +54,7 @@ function PostDetail(props) {
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
+    handleHidePost: PropTypes.func.isRequired
     handleLikeClickFeed: PropTypes.func.isRequired
   };
 
@@ -76,6 +78,7 @@ function PostDetail(props) {
     userId,
     handlePostChange,
     likedBy,
+    handleHidePost,
     handleLikeClickFeed
   } = props;
 
@@ -148,6 +151,12 @@ function PostDetail(props) {
   const handlePostEdit = async () => {
     setOpen(false);
     setTestState((x) => !x);
+  };
+
+  const handleHideClick = async () => {
+    setOpen(false);
+    hidePost(postId, curUserId);
+    handleHidePost(postId);
   };
 
   const handlePostDelete = async (id) => {
@@ -274,6 +283,13 @@ function PostDetail(props) {
                 onClick={() => handlePostDelete(postId)}
               >
                 Delete Post
+              </button>
+              <button
+                type="submit"
+                className="deleteButton"
+                onClick={handleHideClick}
+              >
+                Hide Post
               </button>
             </div>
             <div className="post-detail-comments">{allComments}</div>
