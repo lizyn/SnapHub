@@ -67,6 +67,7 @@ export default function EditPostModal(props) {
 
   const [editTitle, setEditTitle] = useState(title);
   const [caption, setCaption] = useState('');
+  const [mediaFile, setMediaFile] = useState(img);
   const [file, setFile] = useState(img);
   // const [submit, setSubmit] = useState(false);
   const [fileType, setFileType] = useState('img');
@@ -76,14 +77,14 @@ export default function EditPostModal(props) {
     userId: curUserId,
     avatar: curUserAvatar
   };
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {}, [curUserId]);
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
-    console.log(newFile);
-    setFile(URL.createObjectURL(newFile));
+    setFile(newFile);
+    setMediaFile(URL.createObjectURL(newFile));
     if (newFile.type.startsWith('image')) {
       setFileType('img');
       // setSubmit(true);
@@ -91,7 +92,6 @@ export default function EditPostModal(props) {
       setFileType('video');
       // setSubmit(true);
     }
-    // console.log(URL.createObjectURL(newFile));
   };
 
   const uploadPost = async () => {
@@ -133,7 +133,7 @@ export default function EditPostModal(props) {
       setAlert('edited-post');
     } catch (err) {
       setAlert('error');
-      console.log(err);
+      // console.log(err);
     } finally {
       setTimeout(() => {
         setAlert('');
@@ -176,7 +176,7 @@ export default function EditPostModal(props) {
                     <CardMedia
                       component={fileType}
                       controls={fileType === 'video'}
-                      src={file}
+                      src={mediaFile}
                       style={{
                         height: '100%',
                         maxWidth: '100%',

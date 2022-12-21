@@ -7,6 +7,7 @@ import './ProfilePage.css';
 // import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 
+import CircularProgress from '@mui/material/CircularProgress';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import UserRow from './UserRow';
@@ -38,7 +39,7 @@ function ProfilePage(props) {
   // };
 
   const [photos, setPhotos] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [edited, setEdited] = useState(false);
   // const [isFollowing, setIsFollowing] = useState(false);
   // const currentUserId = '63899e8d4bd2e0bd159d0e10';
@@ -53,11 +54,13 @@ function ProfilePage(props) {
       }
     }
     async function fetchPhotoData() {
-      const photoData = await fetchUserPost(userId);
+      let photoData = [];
+      if (userId) photoData = await fetchUserPost(userId);
       if (Array.isArray(photoData) && photoData.length !== 0) {
         setPhotos(photoData);
       }
     }
+    // console.log(sessionStorage.getItem('user'), 'and', user, 'and', userId);
     // async function followStatus() {
     //   try {
     //     const url = `${rootUrl}/follows/${currentUserId}/${userId}`;
@@ -69,6 +72,7 @@ function ProfilePage(props) {
     //     setIsFollowing(false);
     //   }
     // }
+    if (!sessionStorage.getItem('app-token')) window.location.replace('/login');
     fetchUser();
     fetchPhotoData();
     // followStatus();
@@ -98,7 +102,7 @@ function ProfilePage(props) {
   };
 
   const handleEditPost = () => {
-    console.log('editedpost');
+    // console.log('editedpost');
     setEdited((x) => !x);
   };
 
@@ -107,6 +111,10 @@ function ProfilePage(props) {
     setPhotos(userPosts.filter((x) => x._id !== postId));
   };
 
+  if (!sessionStorage.getItem('app-token')) return <div />;
+  if (!user && !userId) {
+    return <CircularProgress />;
+  }
   return (
     <div>
       <CreatePostModal

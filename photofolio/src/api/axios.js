@@ -33,7 +33,7 @@ export const fetchFeeds = async (userId) => {
     return response.data.data;
   } catch (err) {
     reAuthenticate(401);
-    console.error(err);
+    // console.error(err);
     return false;
   }
 };
@@ -49,7 +49,7 @@ export const fetchPhotos = async (userId) => {
     return response.data.data;
   } catch (err) {
     reAuthenticate(401);
-    console.error(err);
+    // console.error(err);
     return err;
   }
 };
@@ -67,7 +67,7 @@ export const fetchUsers = async (userId) => {
     // field of the response
   } catch (err) {
     reAuthenticate(401);
-    console.error(err);
+    // console.error(err);
     return err;
   }
 };

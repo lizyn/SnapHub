@@ -63,13 +63,13 @@ export default function CreatePostModal(props) {
     userId: curUserId,
     avatar: curUserAvatar
   };
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {}, [curUserId]);
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
-    console.log(newFile);
+    // console.log(newFile);
     setFile(newFile);
     if (newFile.type.startsWith('image')) {
       setFileType('img');
@@ -120,7 +120,7 @@ export default function CreatePostModal(props) {
       setAlert('created-post');
     } catch (err) {
       setAlert('error');
-      console.log(err);
+      // console.log(err);
     } finally {
       setTimeout(() => {
         window.location.replace('/profile');

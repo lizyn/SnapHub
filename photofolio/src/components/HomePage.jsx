@@ -35,20 +35,26 @@ function HomePage(props) {
       }
     }
   });
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    avatar: '/'
-  });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     async function getCurUser() {
       const token = sessionStorage.getItem('user');
-      const userData = await fetchCurUser(token);
+      let userData = {};
+      if (token) userData = await fetchCurUser(token);
       setUser(userData[0]);
     }
     getCurUser();
+    if (!sessionStorage.getItem('app-token')) window.location.replace('/login');
   }, []);
+  // console.log(sessionStorage.getItem('app-token'));
+
+  if (
+    !sessionStorage.getItem('user') ||
+    !user ||
+    !sessionStorage.getItem('app-token')
+  )
+    return <div />;
 
   return (
     <div className="flex1">

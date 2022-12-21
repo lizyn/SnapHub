@@ -57,8 +57,8 @@ function PostDetail(props) {
     handleHidePost: PropTypes.func.isRequired,
     handleLikeClickFeed: PropTypes.func.isRequired,
     curUserId: PropTypes.string.isRequired,
-    curUserName: PropTypes.string,
-    curUserAvatar: PropTypes.string,
+    // curUserName: PropTypes.string,
+    // curUserAvatar: PropTypes.string,
     handleEditPost: PropTypes.func
   };
 
@@ -67,8 +67,8 @@ function PostDetail(props) {
     img: '/',
     avatar: '/',
     numberLikes: 0,
-    curUserName: '',
-    curUserAvatar: '/',
+    // curUserName: '',
+    // curUserAvatar: '/',
     liked: false,
     handleEditPost: () => {}
   };
@@ -89,8 +89,8 @@ function PostDetail(props) {
     handleHidePost,
     handleLikeClickFeed,
     curUserId,
-    curUserName,
-    curUserAvatar,
+    // curUserName,
+    // curUserAvatar,
     handleEditPost
   } = props;
 
@@ -114,7 +114,7 @@ function PostDetail(props) {
       // console.log(candidates);
       setMentionCandidates(candidates);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       // return err;
     }
   };
@@ -131,9 +131,9 @@ function PostDetail(props) {
   useEffect(() => {
     async function fetchData() {
       const commentsData = await fetchComments(postId);
-      console.log(commentsData);
+      // console.log(commentsData);
       if (Array.isArray(commentsData) && commentsData.length >= 0) {
-        console.log('fetched');
+        // console.log('fetched');
         commentlist = commentsData;
         setComments(commentlist);
       }
@@ -239,9 +239,9 @@ function PostDetail(props) {
         postId={postId}
         title={title}
         img={img}
-        curUserId={curUserId}
-        curUserName={curUserName}
-        curUserAvatar={curUserAvatar}
+        curUserId={userId}
+        curUserName={author}
+        curUserAvatar={avatar}
         handleEditPost={handleEditPost}
       />
       <Modal

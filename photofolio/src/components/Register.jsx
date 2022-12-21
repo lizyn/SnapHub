@@ -71,8 +71,8 @@ function Register() {
         firstname: fstName,
         lastname: lstName
       };
-      const response = await register(newUser);
-      console.log(JSON.stringify(response));
+      await register(newUser);
+      // console.log(JSON.stringify(response));
       setSuccess(true);
     } catch (err) {
       console.error(err);
