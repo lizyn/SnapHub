@@ -98,6 +98,7 @@ function HomePage(props) {
             >
               <ThemeProvider theme={orange}>
                 <Fab
+                  id = 'newposttest'
                   variant="extended"
                   color="primary"
                   sx={{ zIndex: 998 }}

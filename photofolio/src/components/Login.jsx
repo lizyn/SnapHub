@@ -48,7 +48,7 @@ function Login() {
       {success ? (
         <section>
           <h1>Success!</h1>
-          <p>
+          <p id = 'homelink'>
             <Link to="/home">Go to Homepage</Link>
           </p>
         </section>
@@ -85,7 +85,7 @@ function Login() {
                 required
               />
             </label>
-            <button type="submit"> Sign In </button>
+            <button id = 'testlogin' type="submit"> Sign In </button>
           </form>
           <p>
             Need an Account?
