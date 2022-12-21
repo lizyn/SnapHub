@@ -54,7 +54,7 @@ export default function CreatePostModal(props) {
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
-    console.log(newFile);
+    // console.log(newFile);
     setFile(newFile);
     if (newFile.type.startsWith('image')) {
       setFileType('img');
@@ -105,7 +105,7 @@ export default function CreatePostModal(props) {
       setAlert('created-post');
     } catch (err) {
       setAlert('error');
-      console.log(err);
+      // console.log(err);
     } finally {
       setTimeout(() => {
         setAlert('');

@@ -106,8 +106,8 @@ function PostDetail(props) {
       // console.log(candidates);
       setMentionCandidates(candidates);
     } catch (err) {
-      console.log(err);
-      // return err;
+      // console.log(err);
+      return err;
     }
   };
   const [postDeleted, setPostDeleted] = useState(false);
@@ -123,9 +123,9 @@ function PostDetail(props) {
   useEffect(() => {
     async function fetchData() {
       const commentsData = await fetchComments(postId);
-      console.log(commentsData);
+      // console.log(commentsData);
       if (Array.isArray(commentsData) && commentsData.length >= 0) {
-        console.log('fetched');
+        // console.log('fetched');
         commentlist = commentsData;
         setComments(commentlist);
       }
