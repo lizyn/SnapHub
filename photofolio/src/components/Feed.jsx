@@ -34,7 +34,7 @@ function Feed(props) {
     inPostDetail: PropTypes.bool,
     curUserName: PropTypes.string,
     curUserAvatar: PropTypes.string,
-    handleEditPost: PropTypes.func.isRequired
+    handleEditPost: PropTypes.func
   };
 
   Feed.defaultProps = {
@@ -44,7 +44,8 @@ function Feed(props) {
     commentIds: [],
     inPostDetail: false,
     curUserName: ' ',
-    curUserAvatar: '/'
+    curUserAvatar: '/',
+    handleEditPost: () => {}
   };
 
   const {
