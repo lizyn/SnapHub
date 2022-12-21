@@ -78,6 +78,7 @@ export default function EditPostModal(props) {
     try {
       // console.log(postId);
       const response = await axios.put(`${rootUrl}/posts/${postId}`, params);
+      return response;
       // console.log(response);
     } catch (err) {
       // console.error(err);

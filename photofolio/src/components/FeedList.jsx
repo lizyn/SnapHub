@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
-
+import PropTypes from 'prop-types';
 // import CircularProgress from '@mui/material/CircularProgress';
 import Feed from './Feed';
 import { fetchFeeds, fetchUsers } from '../api/axios';

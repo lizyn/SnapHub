@@ -107,7 +107,7 @@ function PostDetail(props) {
       setMentionCandidates(candidates);
     } catch (err) {
       // console.log(err);
-      return err;
+      // return err;
     }
   };
   const [postDeleted, setPostDeleted] = useState(false);

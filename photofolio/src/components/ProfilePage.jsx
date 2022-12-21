@@ -43,6 +43,7 @@ function ProfilePage(props) {
   useEffect(() => {
     setPhotos([]);
     async function fetchUser() {
+      // eslint-disable-next-line no-undef
       if (!userId) userId = sessionStorage.getItem('user');
       const userData = await fetchUsers(userId);
       if (userData) {
