@@ -28,7 +28,7 @@ function FeedList(props) {
 
   // const [items, setItems] = useState([]);
   // let items = [];
-  const userId = '63899e8d4bd2e0bd159d0e10';
+  // const userId = '63899e8d4bd2e0bd159d0e10';
 
   const handlePostChange = (postId) => {
     const updatedPosts = posts.filter((x) => x.id !== postId);
@@ -36,7 +36,8 @@ function FeedList(props) {
   };
 
   async function fetchData() {
-    const postsData = await fetchFeeds(userId);
+    let postsData = [];
+    if (curUserId) postsData = await fetchFeeds(curUserId);
     setPosts(postsData);
   }
 
