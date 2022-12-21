@@ -17,8 +17,10 @@ const setHeaders = () => {
 const reAuthenticate = (status) => {
   if (status === 401) {
     // delete the token
+    // eslint-disable-next-line no-undef
     sessionStorage.removeItem('app-token');
     // reload the app
+    // eslint-disable-next-line no-undef
     window.location.reload(true);
   }
 };
