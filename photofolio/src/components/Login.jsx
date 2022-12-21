@@ -27,7 +27,6 @@ function Login() {
       sessionStorage.setItem('app-token', response.data.token);
       // eslint-disable-next-line no-underscore-dangle
       sessionStorage.setItem('user', response.data.data._id);
-      // eslint-disable-next-line no-underscore-dangle
       setUser('');
       setPwd('');
       setSuccess(true);
@@ -51,7 +50,7 @@ function Login() {
       {success ? (
         <section>
           <h1>Success!</h1>
-          <p>
+          <p id="homelink">
             <Link to="/home">Go to Homepage</Link>
           </p>
         </section>
@@ -88,7 +87,10 @@ function Login() {
                 required
               />
             </label>
-            <button type="submit"> Sign In </button>
+            <button id="testlogin" type="submit">
+              {' '}
+              Sign In{' '}
+            </button>
           </form>
           <p>
             Need an Account?

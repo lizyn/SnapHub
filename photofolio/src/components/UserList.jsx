@@ -49,7 +49,11 @@ function UserList() {
     <div className="user-row-card" key={user._id}>
       <UserRow
         avatar={user.avatar}
-        name={`${user.firstName || user.username || ''} ${user.lastName || ''}`}
+        name={
+          user.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user.username || 'User 42'
+        }
         // eslint-disable-next-line no-underscore-dangle
         userId={user._id}
         showFollow={user.showFollow !== false}

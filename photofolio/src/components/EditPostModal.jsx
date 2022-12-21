@@ -106,8 +106,6 @@ export default function EditPostModal(props) {
       formData.append(key, postParams[key]);
     });
     try {
-      // console.log(file);
-      // console.log(formData);
       const newPost = await axios.put(`${rootUrl}/posts/${postId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -115,9 +113,7 @@ export default function EditPostModal(props) {
       });
       return newPost;
     } catch (err) {
-      // console.log(err.message);
       return err;
-      // console.log(err);
     }
   };
 

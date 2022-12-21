@@ -79,12 +79,25 @@ function HomePage(props) {
               />
             </Link>
             <h3>
-              {user.firstName || 'User'} {user.lastName || '42'}
+              {user.firstName && user.lastName
+                ? `${user.firstName} ${user.lastName}`
+                : user.username || 'User 42'}
             </h3>
           </div>
           <div className="recommendations">
             <div style={{ marginBottom: '.5em' }}>Recommended for you</div>
-            <UserList />
+            <div
+              style={{
+                height: '40vh',
+                overflow: 'auto',
+                display: 'flex',
+                flexDirection: 'column'
+                // border: '1px solid silver',
+                // borderRadius: '3px'
+              }}
+            >
+              <UserList />
+            </div>
           </div>
         </div>
 
@@ -108,6 +121,7 @@ function HomePage(props) {
             >
               <ThemeProvider theme={orange}>
                 <Fab
+                  id="newposttest"
                   variant="extended"
                   color="primary"
                   sx={{ zIndex: 998 }}

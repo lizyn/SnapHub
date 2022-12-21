@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useRef, useState, useEffect } from 'react';
 import {
   faCheck,
@@ -75,7 +77,8 @@ function Register() {
       // console.log(JSON.stringify(response));
       setSuccess(true);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      // return err;
     }
   };
 
@@ -85,6 +88,7 @@ function Register() {
         {success ? (
           <section>
             <h1>Success!</h1>
+
             <button type="submit" onClick={toLogin}>
               Login
             </button>

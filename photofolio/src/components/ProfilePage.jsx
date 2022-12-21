@@ -47,6 +47,7 @@ function ProfilePage(props) {
   useEffect(() => {
     setPhotos([]);
     async function fetchUser() {
+      // eslint-disable-next-line no-undef
       if (!userId) userId = sessionStorage.getItem('user');
       const userData = await fetchUsers(userId);
       if (userData) {
@@ -149,7 +150,7 @@ function ProfilePage(props) {
             {user.firstName && user.lastName ? (
               <p>{`${user.firstName} ${user.lastName}`}</p>
             ) : (
-              <p>{user.username}</p>
+              <p>{user.username || 'User 42'}</p>
             )}
             <p>This user have no self introduction yet.</p>
           </div> */}
