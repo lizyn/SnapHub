@@ -50,14 +50,16 @@ function PostDetail(props) {
     img: PropTypes.string,
     avatar: PropTypes.string,
     numberLikes: PropTypes.number,
-    // likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
     liked: PropTypes.bool,
     handleHidePost: PropTypes.func.isRequired,
     handleLikeClickFeed: PropTypes.func.isRequired,
-    curUserId: PropTypes.string.isRequired
+    curUserId: PropTypes.string.isRequired,
+    // curUserName: PropTypes.string,
+    // curUserAvatar: PropTypes.string,
+    handleEditPost: PropTypes.func
   };
 
   PostDetail.defaultProps = {
@@ -65,7 +67,10 @@ function PostDetail(props) {
     img: '/',
     avatar: '/',
     numberLikes: 0,
-    liked: false
+    // curUserName: '',
+    // curUserAvatar: '/',
+    liked: false,
+    handleEditPost: () => {}
   };
 
   const {
@@ -83,7 +88,10 @@ function PostDetail(props) {
     liked,
     handleHidePost,
     handleLikeClickFeed,
-    curUserId
+    curUserId,
+    // curUserName,
+    // curUserAvatar,
+    handleEditPost
   } = props;
 
   const [comments, setComments] = useState([]);
@@ -234,6 +242,10 @@ function PostDetail(props) {
         postId={postId}
         title={title}
         img={img}
+        curUserId={userId}
+        curUserName={author}
+        curUserAvatar={avatar}
+        handleEditPost={handleEditPost}
       />
       <Modal
         open={open || false}
@@ -279,25 +291,29 @@ function PostDetail(props) {
               <p className="postTime">{postTimeStr}</p>
             </div>
             <div>
-              <button type="submit" onClick={() => handlePostEdit(postId)}>
-                Edit Post
-              </button>
-            </div>
-            <div>
-              <button
-                type="submit"
-                className="deleteButton"
-                onClick={() => handlePostDelete(postId)}
-              >
-                Delete Post
-              </button>
-              <button
-                type="submit"
-                className="deleteButton"
-                onClick={handleHideClick}
-              >
-                Hide Post
-              </button>
+              {curUserId === userId && (
+                <div>
+                  <button type="submit" onClick={() => handlePostEdit(postId)}>
+                    Edit Post
+                  </button>
+                  <button
+                    type="submit"
+                    className="deleteButton"
+                    onClick={() => handlePostDelete(postId)}
+                  >
+                    Delete Post
+                  </button>
+                </div>
+              )}
+              {curUserId !== userId && (
+                <button
+                  type="submit"
+                  className="deleteButton"
+                  onClick={handleHideClick}
+                >
+                  Hide Post
+                </button>
+              )}
             </div>
             <div className="post-detail-comments">{allComments}</div>
             <div className="post-detail-actions">

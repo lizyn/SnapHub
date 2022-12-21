@@ -27,8 +27,6 @@ function Login() {
       sessionStorage.setItem('app-token', response.data.token);
       // eslint-disable-next-line no-underscore-dangle
       sessionStorage.setItem('user', response.data.data._id);
-      // eslint-disable-next-line no-underscore-dangle
-      // console.log(response.data.data._id);
       setUser('');
       setPwd('');
       setSuccess(true);

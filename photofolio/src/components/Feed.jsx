@@ -30,14 +30,21 @@ function Feed(props) {
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
     curUserId: PropTypes.string.isRequired,
-    handleHidePost: PropTypes.func.isRequired
+    handleHidePost: PropTypes.func.isRequired,
+    inPostDetail: PropTypes.bool,
+    curUserName: PropTypes.string,
+    curUserAvatar: PropTypes.string,
+    handleEditPost: PropTypes.func.isRequired
   };
 
   Feed.defaultProps = {
     msAge: 0,
     img: '/',
     avatar: '/',
-    commentIds: []
+    commentIds: [],
+    inPostDetail: false,
+    curUserName: ' ',
+    curUserAvatar: '/'
   };
 
   const {
@@ -53,7 +60,11 @@ function Feed(props) {
     handlePostChange,
     likedBy,
     handleHidePost,
-    curUserId
+    curUserId,
+    inPostDetail,
+    curUserName,
+    curUserAvatar,
+    handleEditPost
   } = props;
 
   const [anchorEl, setAnchorEl] = useState(false);
@@ -130,85 +141,92 @@ function Feed(props) {
           handleHidePost={handleHidePost}
           handleLikeClickFeed={handleLikeClick}
           curUserId={curUserId}
+          curUserName={curUserName}
+          curUserAvatar={curUserAvatar}
+          handleEditPost={handleEditPost}
         />
       </div>
       <div>
         <div className="post">
-          <div className="postHead">
-            <div>
-              <Avatar
-                alt="me"
-                className="Avatar"
-                src={avatar}
-                sx={{ width: 50, height: 50, marginTop: 1, marginBottom: 1 }}
-              />
-              <div className="post-head-detail">
-                <p className="postUsername">{author}</p>
-                <p className="postTime">{postTimeStr}</p>
+          {!inPostDetail && (
+            <div className="postHead">
+              <div>
+                <Avatar
+                  alt="me"
+                  className="Avatar"
+                  src={avatar}
+                  sx={{ width: 50, height: 50, marginTop: 1, marginBottom: 1 }}
+                />
+                <div className="post-head-detail">
+                  <p className="postUsername">{author}</p>
+                  <p className="postTime">{postTimeStr}</p>
+                </div>
+              </div>
+              <div className="postHeadButton">
+                <IconButton
+                  className="comment-row-button"
+                  id="edit-button"
+                  aria-controls={open ? 'edit-drop-down' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleCommentMenuClick}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+                <Menu
+                  id="edit-drop-down"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleHideClose}
+                  MenuListProps={{
+                    'aria-labelledby': 'edit-button'
+                  }}
+                >
+                  <MenuItem onClick={handleHideClick}>Hide Post</MenuItem>
+                </Menu>
               </div>
             </div>
-            <div className="postHeadButton">
-              <IconButton
-                className="comment-row-button"
-                id="edit-button"
-                aria-controls={open ? 'edit-drop-down' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleCommentMenuClick}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Menu
-                id="edit-drop-down"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleHideClose}
-                MenuListProps={{
-                  'aria-labelledby': 'edit-button'
-                }}
-              >
-                <MenuItem onClick={handleHideClick}>Hide Post</MenuItem>
-              </Menu>
-            </div>
-          </div>
+          )}
           <button type="button" onClick={handleClick}>
             <img src={img} alt="post" />
           </button>
-          <div className="postActions">
-            <div className="postStats">
-              <div className="stats">
-                <IconButton
-                  onClick={handleLikeClick}
-                  aria-label="like"
-                  sx={{ curser: 'pointer' }}
-                >
-                  {postLiked ? (
-                    <LikeIconFilled sx={{ color: 'orange!important' }} />
-                  ) : (
-                    <LikeIconOutlined />
-                  )}
-                </IconButton>
-                <p>
-                  {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
-                </p>
+          {!inPostDetail && (
+            <div className="postActions">
+              <div className="postStats">
+                <div className="stats">
+                  <IconButton
+                    onClick={handleLikeClick}
+                    aria-label="like"
+                    sx={{ curser: 'pointer' }}
+                  >
+                    {postLiked ? (
+                      <LikeIconFilled sx={{ color: 'orange!important' }} />
+                    ) : (
+                      <LikeIconOutlined />
+                    )}
+                  </IconButton>
+                  <p>
+                    {numLikes <= 1 ? `${numLikes} Like` : `${numLikes} Likes`}
+                  </p>
+                </div>
+                <div className="stats">
+                  <ForumOutlinedIcon />
+                  <p>{commentIds.length} Comments</p>
+                </div>
               </div>
-              <div className="stats">
-                <ForumOutlinedIcon />
-                <p>{commentIds.length} Comments</p>
+              <div className="postComment">
+                <button type="submit" onClick={handleClick}>
+                  <img src={sendIcon} alt="send comment" />
+                </button>
+                <input
+                  type="text"
+                  placeholder="Post a comment"
+                  name="postComment"
+                  onClick={handleClick}
+                />
               </div>
             </div>
-            <div className="postComment">
-              <button type="submit" onClick={handleClick}>
-                <img src={sendIcon} alt="send comment" />
-              </button>
-              <input
-                type="text"
-                placeholder="Post a comment"
-                name="postComment"
-                onClick={handleClick}
-              />
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
 import {
@@ -39,63 +39,103 @@ export default function EditPostModal(props) {
     setAlert: PropTypes.func.isRequired,
     postId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    img: PropTypes.string.isRequired
+    img: PropTypes.string.isRequired,
+    curUserId: PropTypes.string.isRequired,
+    curUserAvatar: PropTypes.string,
+    curUserName: PropTypes.string,
+    handleEditPost: PropTypes.func
   };
 
-  const { open, closeModal, setAlert, postId, title, img } = props;
+  EditPostModal.defaultProps = {
+    curUserName: ' ',
+    curUserAvatar: '/',
+    handleEditPost: () => {}
+  };
+
+  const {
+    open,
+    closeModal,
+    setAlert,
+    postId,
+    title,
+    img,
+    curUserId,
+    curUserAvatar,
+    curUserName,
+    handleEditPost
+  } = props;
 
   const [editTitle, setEditTitle] = useState(title);
   const [caption, setCaption] = useState('');
+  const [mediaFile, setMediaFile] = useState(img);
   const [file, setFile] = useState(img);
-  const [submit, setSubmit] = useState(false);
+  // const [submit, setSubmit] = useState(false);
   const [fileType, setFileType] = useState('img');
 
   const user = {
-    name: 'Tatiana Dokidis',
-    userId: '638682d7b47712e0d260ce8b',
-    avatar: ''
+    name: curUserName,
+    userId: curUserId,
+    avatar: curUserAvatar
   };
+  // console.log(user);
+
+  useEffect(() => {}, [curUserId]);
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
-    setFile(URL.createObjectURL(newFile));
+    setFile(newFile);
+    setMediaFile(URL.createObjectURL(newFile));
     if (newFile.type.startsWith('image')) {
       setFileType('img');
-      setSubmit(true);
+      // setSubmit(true);
     } else {
       setFileType('video');
-      setSubmit(true);
+      // setSubmit(true);
     }
   };
 
   const uploadPost = async () => {
-    const params = {
-      editTitle,
-      caption,
-      userId: user.id,
-      photos: ['https://example.org/image']
+    const formData = new FormData();
+    formData.append('file', file);
+    const postParams = {
+      title: editTitle,
+      userId: user.userId
+      // photo: file
     };
+    Object.keys(postParams).forEach((key) => {
+      formData.append(key, postParams[key]);
+    });
     try {
-      // console.log(postId);
-      const response = await axios.put(`${rootUrl}/posts/${postId}`, params);
-      return response;
-      // console.log(response);
+      const newPost = await axios.put(`${rootUrl}/posts/${postId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return newPost;
     } catch (err) {
-      // console.error(err);
       return err;
     }
   };
 
-  const handleSubmit = () => {
-    closeModal();
-    setEditTitle('');
-    setCaption('');
-    setFile();
-    uploadPost();
-    setAlert('updated-post');
-    setTimeout(() => {
-      setAlert('');
-    }, 5000);
+  const handleSubmit = async () => {
+    setAlert('edited-post');
+    try {
+      const res = await uploadPost();
+      if (res instanceof Error) throw res;
+      closeModal();
+      // setEditTitle('');
+      // setCaption('');
+      // setFile();
+      setAlert('edited-post');
+    } catch (err) {
+      setAlert('error');
+      // console.log(err);
+    } finally {
+      setTimeout(() => {
+        setAlert('');
+      }, 5000);
+      handleEditPost();
+    }
   };
 
   return (
@@ -114,7 +154,7 @@ export default function EditPostModal(props) {
                 height: '90%'
               }}
             >
-              <div className="modal-header">Editing a post</div>
+              <div className="modal-header">creating a post</div>
               <Box
                 textAlign="center"
                 alignItems="center"
@@ -132,7 +172,7 @@ export default function EditPostModal(props) {
                     <CardMedia
                       component={fileType}
                       controls={fileType === 'video'}
-                      src={file}
+                      src={mediaFile}
                       style={{
                         height: '100%',
                         maxWidth: '100%',
@@ -202,14 +242,19 @@ export default function EditPostModal(props) {
                 flexDirection: 'column'
               }}
             >
-              <UserRow name={user.name} userId={user.userId} avatar="" ring />
+              <UserRow
+                name={user.name}
+                userId={user.userId}
+                ring
+                avatar={user.avatar}
+              />
               <Box sx={{ mx: 2 }}>
                 <Box component="form" noValidate onSubmit={handleSubmit}>
                   <TextField
                     // margin="normal"
                     fullWidth
                     id="post-title"
-                    placeholder={title}
+                    label="Title…"
                     name="title"
                     autoFocus
                     size="small"
@@ -252,7 +297,7 @@ export default function EditPostModal(props) {
                   id="submit"
                   type="submit"
                   variant="contained"
-                  disabled={!submit}
+                  // disabled={!submit}
                   onClick={handleSubmit}
                   sx={{ mt: 2, px: 5 }}
                 >

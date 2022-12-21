@@ -35,20 +35,26 @@ function HomePage(props) {
       }
     }
   });
-  const [user, setUser] = useState({
-    firstName: '',
-    lastName: '',
-    avatar: '/'
-  });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     async function getCurUser() {
       const token = sessionStorage.getItem('user');
-      const userData = await fetchCurUser(token);
+      let userData = {};
+      if (token) userData = await fetchCurUser(token);
       setUser(userData[0]);
     }
     getCurUser();
+    if (!sessionStorage.getItem('app-token')) window.location.replace('/login');
   }, []);
+  // console.log(sessionStorage.getItem('app-token'));
+
+  if (
+    !sessionStorage.getItem('user') ||
+    !user ||
+    !sessionStorage.getItem('app-token')
+  )
+    return <div />;
 
   return (
     <div className="flex1">
@@ -56,6 +62,10 @@ function HomePage(props) {
         closeModal={closePostModal}
         open={postModalIsOpen}
         setAlert={setAlert}
+        curUserFirstName={`${user.firstName} ${user.lastName}`}
+        curUserAvatar={user.avatar}
+        // eslint-disable-next-line no-underscore-dangle
+        curUserId={user._id}
       />
       <div className="main">
         <div className="users-section">
@@ -126,7 +136,12 @@ function HomePage(props) {
 
           <div className="feed">
             {/* eslint-disable-next-line no-underscore-dangle */}
-            <FeedList curUserId={user._id} />
+            <FeedList
+              // eslint-disable-next-line no-underscore-dangle
+              curUserId={user._id}
+              curUserName={`${user.firstName} ${user.lastName}`}
+              curUserAvatar={user.avatar}
+            />
           </div>
         </div>
       </div>

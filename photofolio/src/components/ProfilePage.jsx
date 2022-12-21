@@ -7,10 +7,12 @@ import './ProfilePage.css';
 // import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 
+import CircularProgress from '@mui/material/CircularProgress';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import UserRow from './UserRow';
 import CreatePostModal from './CreatePostModal';
+import Feed from './Feed';
 // import { rootUrl } from './Config';
 // import likeIcon from '../icons/Like.svg';
 // import followerIcon from '../icons/People.svg';
@@ -28,6 +30,7 @@ function ProfilePage(props) {
 
   const { closePostModal, postModalIsOpen, setAlert } = props;
   let { userId } = useParams();
+  const now = Date.now();
   // const user = {
   //   name: 'Tatiana Dokidis',
   //   userId: '63899e8d4bd2e0bd159d0e10',
@@ -36,7 +39,8 @@ function ProfilePage(props) {
   // };
 
   const [photos, setPhotos] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+  const [edited, setEdited] = useState(false);
   // const [isFollowing, setIsFollowing] = useState(false);
   // const currentUserId = '63899e8d4bd2e0bd159d0e10';
 
@@ -51,11 +55,13 @@ function ProfilePage(props) {
       }
     }
     async function fetchPhotoData() {
-      const photoData = await fetchUserPost(userId);
+      let photoData = [];
+      if (userId) photoData = await fetchUserPost(userId);
       if (Array.isArray(photoData) && photoData.length !== 0) {
         setPhotos(photoData);
       }
     }
+    // console.log(sessionStorage.getItem('user'), 'and', user, 'and', userId);
     // async function followStatus() {
     //   try {
     //     const url = `${rootUrl}/follows/${currentUserId}/${userId}`;
@@ -67,11 +73,12 @@ function ProfilePage(props) {
     //     setIsFollowing(false);
     //   }
     // }
+    if (!sessionStorage.getItem('app-token')) window.location.replace('/login');
     fetchUser();
     fetchPhotoData();
     // followStatus();
     // console.log(userId);
-  }, [userId]);
+  }, [userId, edited]);
 
   // const orange = createTheme({
   //   status: {
@@ -90,12 +97,35 @@ function ProfilePage(props) {
   // });
   const userPosts = photos;
 
+  const handlePostChange = (postId) => {
+    const updatedPosts = photos.filter((x) => x._id !== postId);
+    setPhotos(updatedPosts);
+  };
+
+  const handleEditPost = () => {
+    // console.log('editedpost');
+    setEdited((x) => !x);
+  };
+
+  const handleHidePost = (postId) => {
+    // eslint-disable-next-line no-underscore-dangle
+    setPhotos(userPosts.filter((x) => x._id !== postId));
+  };
+
+  if (!sessionStorage.getItem('app-token')) return <div />;
+  if (!user && !userId) {
+    return <CircularProgress />;
+  }
   return (
     <div>
       <CreatePostModal
         closeModal={closePostModal}
         open={postModalIsOpen}
         setAlert={setAlert}
+        curUserFirstName={`${user.firstName} ${user.lastName}`}
+        curUserAvatar={user.avatar}
+        // eslint-disable-next-line no-underscore-dangle
+        curUserId={user._id}
       />
       <div className="profileMain">
         <div className="profileUser">
@@ -161,9 +191,13 @@ function ProfilePage(props) {
             <h5>This user have not made any post yet</h5>
           ) : (
             <ImageList
-              sx={{ width: 1100, height: 300, overflow: 'hidden' }}
+              sx={{
+                width: 800,
+                height: 500,
+                overflow: 'scroll'
+              }}
               cols={3}
-              gap={0}
+              rowHeight={164}
             >
               {userPosts.map((item) => (
                 <ImageListItem
@@ -171,12 +205,35 @@ function ProfilePage(props) {
                   key={item._id}
                   sx={{ width: '95% !important', height: '90% !important' }}
                 >
-                  <img
-                    src={`${item.photo}?w=164&h=164&fit=crop&auto=format`}
-                    srcSet={`${item.photo}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.alt}
-                    loading="lazy"
-                  />
+                  <Feed
+                    author={`${user.firstName} ${user.lastName}`}
+                    img={item.photo}
+                    // eslint-disable-next-line no-underscore-dangle
+                    key={item._id}
+                    // eslint-disable-next-line no-underscore-dangle
+                    userId={user._id}
+                    avatar={user.avatar}
+                    likes={item.likes || 0}
+                    likedBy={item.likedBy || []}
+                    commentIds={item.comments}
+                    title={item.title}
+                    // eslint-disable-next-line no-underscore-dangle
+                    postId={item._id}
+                    msAge={now - Date.parse(item.date)}
+                    handlePostChange={handlePostChange}
+                    curUserId={user._id}
+                    handleHidePost={handleHidePost}
+                    inPostDetail
+                    handleEditPost={handleEditPost}
+                    edited={edited}
+                  >
+                    <img
+                      src={`${item.photo}?w=164&h=164&fit=crop&auto=format`}
+                      srcSet={`${item.photo}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      alt={item.alt}
+                      loading="lazy"
+                    />
+                  </Feed>
                 </ImageListItem>
               ))}
             </ImageList>
