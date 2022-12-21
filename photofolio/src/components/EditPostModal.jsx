@@ -76,11 +76,12 @@ export default function EditPostModal(props) {
       photos: ['https://example.org/image']
     };
     try {
-      console.log(postId);
+      // console.log(postId);
       const response = await axios.put(`${rootUrl}/posts/${postId}`, params);
-      console.log(response);
+      // console.log(response);
     } catch (err) {
-      console.error(err);
+      // console.error(err);
+      return err;
     }
   };
 

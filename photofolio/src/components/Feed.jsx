@@ -61,7 +61,7 @@ function Feed(props) {
   const [detailOpen, setDetailOpen] = useState(false);
   const [postLiked, setPostLiked] = useState(likedBy.includes(curUserId));
   const [numLikes, setNumLikes] = useState(likes);
-  console.log('likedby', likedBy.includes(curUserId), 'includes', curUserId);
+  // console.log('likedby', likedBy.includes(curUserId), 'includes', curUserId);
 
   const handleClick = () => {
     setDetailOpen(true);
