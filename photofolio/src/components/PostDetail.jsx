@@ -275,25 +275,29 @@ function PostDetail(props) {
               <p className="postTime">{postTimeStr}</p>
             </div>
             <div>
-              <button type="submit" onClick={() => handlePostEdit(postId)}>
-                Edit Post
-              </button>
-            </div>
-            <div>
-              <button
-                type="submit"
-                className="deleteButton"
-                onClick={() => handlePostDelete(postId)}
-              >
-                Delete Post
-              </button>
-              <button
-                type="submit"
-                className="deleteButton"
-                onClick={handleHideClick}
-              >
-                Hide Post
-              </button>
+              {curUserId === userId && (
+                <div>
+                  <button type="submit" onClick={() => handlePostEdit(postId)}>
+                    Edit Post
+                  </button>
+                  <button
+                    type="submit"
+                    className="deleteButton"
+                    onClick={() => handlePostDelete(postId)}
+                  >
+                    Delete Post
+                  </button>
+                </div>
+              )}
+              {curUserId !== userId && (
+                <button
+                  type="submit"
+                  className="deleteButton"
+                  onClick={handleHideClick}
+                >
+                  Hide Post
+                </button>
+              )}
             </div>
             <div className="post-detail-comments">{allComments}</div>
             <div className="post-detail-actions">
