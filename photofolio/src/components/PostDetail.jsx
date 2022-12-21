@@ -56,7 +56,9 @@ function PostDetail(props) {
     liked: PropTypes.bool,
     handleHidePost: PropTypes.func.isRequired,
     handleLikeClickFeed: PropTypes.func.isRequired,
-    curUserId: PropTypes.string.isRequired
+    curUserId: PropTypes.string.isRequired,
+    curUserName: PropTypes.string,
+    curUserAvatar: PropTypes.string
   };
 
   PostDetail.defaultProps = {
@@ -64,6 +66,8 @@ function PostDetail(props) {
     img: '/',
     avatar: '/',
     numberLikes: 0,
+    curUserName: '',
+    curUserAvatar: '/',
     liked: false
   };
 
@@ -82,7 +86,9 @@ function PostDetail(props) {
     liked,
     handleHidePost,
     handleLikeClickFeed,
-    curUserId
+    curUserId,
+    curUserName,
+    curUserAvatar
   } = props;
 
   const [comments, setComments] = useState([]);
@@ -230,6 +236,9 @@ function PostDetail(props) {
         postId={postId}
         title={title}
         img={img}
+        curUserId={curUserId}
+        curUserName={curUserName}
+        curUserAvatar={curUserAvatar}
       />
       <Modal
         open={open || false}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
 import {
@@ -11,7 +11,7 @@ import {
   CardMedia
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from '../api/axios';
+import axios, { fetchCurUser } from '../api/axios';
 import UserRow from './UserRow';
 import { rootUrl } from './Config';
 import uploadArrow from '../images/uploadArrow.png';
@@ -39,10 +39,28 @@ export default function EditPostModal(props) {
     setAlert: PropTypes.func.isRequired,
     postId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    img: PropTypes.string.isRequired
+    img: PropTypes.string.isRequired,
+    curUserId: PropTypes.string.isRequired,
+    curUserAvatar: PropTypes.string,
+    curUserName: PropTypes.string
   };
 
-  const { open, closeModal, setAlert, postId, title, img } = props;
+  EditPostModal.defaultProps = {
+    curUserName: ' ',
+    curUserAvatar: '/'
+  };
+
+  const {
+    open,
+    closeModal,
+    setAlert,
+    postId,
+    title,
+    img,
+    curUserId,
+    curUserAvatar,
+    curUserName
+  } = props;
 
   const [editTitle, setEditTitle] = useState(title);
   const [caption, setCaption] = useState('');
@@ -50,11 +68,25 @@ export default function EditPostModal(props) {
   const [submit, setSubmit] = useState(false);
   const [fileType, setFileType] = useState('img');
 
-  const user = {
-    name: 'Tatiana Dokidis',
-    userId: '638682d7b47712e0d260ce8b',
-    avatar: ''
-  };
+  const [user, setUser] = useState({
+    firstName: curUserName,
+    lastName: '',
+    avatar: curUserAvatar
+  });
+
+  useEffect(() => {
+    async function getCurUser() {
+      const token = sessionStorage.getItem('user');
+      const userData = await fetchCurUser(token);
+      setUser(userData[0]);
+    }
+    getCurUser();
+  }, [curUserId]);
+  // const user = {
+  //   name: 'Tatiana Dokidis',
+  //   userId: '638682d7b47712e0d260ce8b',
+  //   avatar: ''
+  // };
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
@@ -69,31 +101,50 @@ export default function EditPostModal(props) {
   };
 
   const uploadPost = async () => {
-    const params = {
-      editTitle,
-      caption,
-      userId: user.id,
-      photos: ['https://example.org/image']
+    const formData = new FormData();
+    formData.append('file', file);
+    const postParams = {
+      title,
+      userId: curUserId
+      // photo: file
     };
+    Object.keys(postParams).forEach((key) => {
+      formData.append(key, postParams[key]);
+    });
     try {
-      console.log(postId);
-      const response = await axios.put(`${rootUrl}/posts/${postId}`, params);
-      console.log(response);
+      // console.log(file);
+      // console.log(formData);
+      const newPost = await axios.put(`${rootUrl}/posts/${postId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return newPost;
     } catch (err) {
-      console.error(err);
+      // console.log(err.message);
+      return err;
+      // console.log(err);
     }
   };
 
-  const handleSubmit = () => {
-    closeModal();
-    setEditTitle('');
-    setCaption('');
-    setFile();
-    uploadPost();
-    setAlert('updated-post');
-    setTimeout(() => {
-      setAlert('');
-    }, 5000);
+  const handleSubmit = async () => {
+    setAlert('submitting-post');
+    try {
+      const res = await uploadPost();
+      if (res instanceof Error) throw res;
+      closeModal();
+      setEditTitle('');
+      setCaption('');
+      setFile();
+      setAlert('created-post');
+    } catch (err) {
+      setAlert('error');
+      console.log(err);
+    } finally {
+      setTimeout(() => {
+        setAlert('');
+      }, 5000);
+    }
   };
 
   return (
@@ -200,7 +251,12 @@ export default function EditPostModal(props) {
                 flexDirection: 'column'
               }}
             >
-              <UserRow name={user.name} userId={user.userId} avatar="" ring />
+              <UserRow
+                name={`${user.firstName} ${user.lastName}`}
+                userId={user.userId}
+                avatar={user.avatar}
+                ring
+              />
               <Box sx={{ mx: 2 }}>
                 <Box component="form" noValidate onSubmit={handleSubmit}>
                   <TextField

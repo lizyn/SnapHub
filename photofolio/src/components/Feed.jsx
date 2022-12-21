@@ -31,7 +31,9 @@ function Feed(props) {
     handlePostChange: PropTypes.func.isRequired,
     curUserId: PropTypes.string.isRequired,
     handleHidePost: PropTypes.func.isRequired,
-    inPostDetail: PropTypes.bool
+    inPostDetail: PropTypes.bool,
+    curUserName: PropTypes.string,
+    curUserAvatar: PropTypes.string
   };
 
   Feed.defaultProps = {
@@ -39,7 +41,9 @@ function Feed(props) {
     img: '/',
     avatar: '/',
     commentIds: [],
-    inPostDetail: false
+    inPostDetail: false,
+    curUserName: ' ',
+    curUserAvatar: '/'
   };
 
   const {
@@ -56,7 +60,9 @@ function Feed(props) {
     likedBy,
     handleHidePost,
     curUserId,
-    inPostDetail
+    inPostDetail,
+    curUserName,
+    curUserAvatar
   } = props;
 
   const [anchorEl, setAnchorEl] = useState(false);
@@ -133,6 +139,8 @@ function Feed(props) {
           handleHidePost={handleHidePost}
           handleLikeClickFeed={handleLikeClick}
           curUserId={curUserId}
+          curUserName={curUserName}
+          curUserAvatar={curUserAvatar}
         />
       </div>
       <div>

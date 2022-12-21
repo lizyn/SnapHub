@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Popup from 'reactjs-popup';
 import {
@@ -37,7 +37,10 @@ export default function CreatePostModal(props) {
   CreatePostModal.propTypes = {
     open: PropTypes.bool.isRequired,
     closeModal: PropTypes.func.isRequired,
-    setAlert: PropTypes.func.isRequired
+    setAlert: PropTypes.func.isRequired,
+    curUserFirstName: PropTypes.string.isRequired,
+    curUserAvatar: PropTypes.string.isRequired,
+    curUserId: PropTypes.string.isRequired
   };
 
   const [title, setTitle] = useState('');
@@ -45,12 +48,24 @@ export default function CreatePostModal(props) {
   const [file, setFile] = useState();
   const [submit, setSubmit] = useState(false);
   const [fileType, setFileType] = useState('img');
+
+  const {
+    open,
+    closeModal,
+    setAlert,
+    curUserFirstName,
+    curUserAvatar,
+    curUserId
+  } = props;
+
   const user = {
-    name: 'Tatiana Dokidis',
-    userId: '638682d7b47712e0d260ce8b',
-    avatar: ''
+    name: curUserFirstName,
+    userId: curUserId,
+    avatar: curUserAvatar
   };
-  const { open, closeModal, setAlert } = props;
+  console.log(user);
+
+  useEffect(() => {}, [curUserId]);
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];

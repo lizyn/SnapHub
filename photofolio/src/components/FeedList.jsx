@@ -6,14 +6,18 @@ import { fetchFeeds, fetchUsers } from '../api/axios';
 
 function FeedList(props) {
   FeedList.propTypes = {
-    curUserId: PropTypes.string
+    curUserId: PropTypes.string,
+    curUserName: PropTypes.string,
+    curUserAvatar: PropTypes.string
   };
 
   FeedList.defaultProps = {
-    curUserId: ''
+    curUserId: '',
+    curUserName: '',
+    curUserAvatar: '/'
   };
 
-  const { curUserId } = props;
+  const { curUserId, curUserName, curUserAvatar } = props;
 
   const [posts, setPosts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -73,6 +77,8 @@ function FeedList(props) {
             handlePostChange={handlePostChange}
             curUserId={curUserId}
             handleHidePost={handleHidePost}
+            curUserName={curUserName}
+            curUserAvatar={curUserAvatar}
           />
         );
       }

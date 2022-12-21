@@ -107,6 +107,10 @@ function ProfilePage(props) {
         closeModal={closePostModal}
         open={postModalIsOpen}
         setAlert={setAlert}
+        curUserFirstName={`${user.firstName} ${user.lastName}`}
+        curUserAvatar={user.avatar}
+        // eslint-disable-next-line no-underscore-dangle
+        curUserId={user._id}
       />
       <div className="profileMain">
         <div className="profileUser">

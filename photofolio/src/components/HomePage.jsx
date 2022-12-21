@@ -56,6 +56,10 @@ function HomePage(props) {
         closeModal={closePostModal}
         open={postModalIsOpen}
         setAlert={setAlert}
+        curUserFirstName={`${user.firstName} ${user.lastName}`}
+        curUserAvatar={user.avatar}
+        // eslint-disable-next-line no-underscore-dangle
+        curUserId={user._id}
       />
       <div className="main">
         <div className="users-section">
@@ -112,7 +116,12 @@ function HomePage(props) {
 
           <div className="feed">
             {/* eslint-disable-next-line no-underscore-dangle */}
-            <FeedList curUserId={user._id} />
+            <FeedList
+              // eslint-disable-next-line no-underscore-dangle
+              curUserId={user._id}
+              curUserName={`${user.firstName} ${user.lastName}`}
+              curUserAvatar={user.avatar}
+            />
           </div>
         </div>
       </div>
