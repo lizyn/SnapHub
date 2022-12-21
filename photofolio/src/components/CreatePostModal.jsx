@@ -178,6 +178,7 @@ export default function CreatePostModal(props) {
               </Box>
               <Box sx={{ display: 'flex' }} justifyContent="center">
                 <Button
+                  id = "uploadbutton"
                   variant="contained"
                   component="label"
                   sx={{ float: 'bottom' }}
