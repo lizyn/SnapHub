@@ -123,8 +123,9 @@ export default function CreatePostModal(props) {
       console.log(err);
     } finally {
       setTimeout(() => {
+        window.location.replace('/profile');
         setAlert('');
-      }, 5000);
+      }, 2000);
     }
   };
 

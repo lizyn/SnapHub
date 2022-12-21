@@ -11,7 +11,7 @@ import {
   CardMedia
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios, { fetchCurUser } from '../api/axios';
+import axios from '../api/axios';
 import UserRow from './UserRow';
 import { rootUrl } from './Config';
 import uploadArrow from '../images/uploadArrow.png';
@@ -42,12 +42,14 @@ export default function EditPostModal(props) {
     img: PropTypes.string.isRequired,
     curUserId: PropTypes.string.isRequired,
     curUserAvatar: PropTypes.string,
-    curUserName: PropTypes.string
+    curUserName: PropTypes.string,
+    handleEditPost: PropTypes.func
   };
 
   EditPostModal.defaultProps = {
     curUserName: ' ',
-    curUserAvatar: '/'
+    curUserAvatar: '/',
+    handleEditPost: () => {}
   };
 
   const {
@@ -59,53 +61,45 @@ export default function EditPostModal(props) {
     img,
     curUserId,
     curUserAvatar,
-    curUserName
+    curUserName,
+    handleEditPost
   } = props;
 
   const [editTitle, setEditTitle] = useState(title);
   const [caption, setCaption] = useState('');
   const [file, setFile] = useState(img);
-  const [submit, setSubmit] = useState(false);
+  // const [submit, setSubmit] = useState(false);
   const [fileType, setFileType] = useState('img');
 
-  const [user, setUser] = useState({
-    firstName: curUserName,
-    lastName: '',
+  const user = {
+    name: curUserName,
+    userId: curUserId,
     avatar: curUserAvatar
-  });
+  };
+  console.log(user);
 
-  useEffect(() => {
-    async function getCurUser() {
-      const token = sessionStorage.getItem('user');
-      const userData = await fetchCurUser(token);
-      setUser(userData[0]);
-    }
-    getCurUser();
-  }, [curUserId]);
-  // const user = {
-  //   name: 'Tatiana Dokidis',
-  //   userId: '638682d7b47712e0d260ce8b',
-  //   avatar: ''
-  // };
+  useEffect(() => {}, [curUserId]);
 
   const handleFileChange = (event) => {
     const newFile = event.target.files[0];
+    console.log(newFile);
     setFile(URL.createObjectURL(newFile));
     if (newFile.type.startsWith('image')) {
       setFileType('img');
-      setSubmit(true);
+      // setSubmit(true);
     } else {
       setFileType('video');
-      setSubmit(true);
+      // setSubmit(true);
     }
+    // console.log(URL.createObjectURL(newFile));
   };
 
   const uploadPost = async () => {
     const formData = new FormData();
     formData.append('file', file);
     const postParams = {
-      title,
-      userId: curUserId
+      title: editTitle,
+      userId: user.userId
       // photo: file
     };
     Object.keys(postParams).forEach((key) => {
@@ -128,15 +122,15 @@ export default function EditPostModal(props) {
   };
 
   const handleSubmit = async () => {
-    setAlert('submitting-post');
+    setAlert('edited-post');
     try {
       const res = await uploadPost();
       if (res instanceof Error) throw res;
       closeModal();
-      setEditTitle('');
-      setCaption('');
-      setFile();
-      setAlert('created-post');
+      // setEditTitle('');
+      // setCaption('');
+      // setFile();
+      setAlert('edited-post');
     } catch (err) {
       setAlert('error');
       console.log(err);
@@ -144,6 +138,7 @@ export default function EditPostModal(props) {
       setTimeout(() => {
         setAlert('');
       }, 5000);
+      handleEditPost();
     }
   };
 
@@ -163,7 +158,7 @@ export default function EditPostModal(props) {
                 height: '90%'
               }}
             >
-              <div className="modal-header">Editing a post</div>
+              <div className="modal-header">creating a post</div>
               <Box
                 textAlign="center"
                 alignItems="center"
@@ -252,10 +247,10 @@ export default function EditPostModal(props) {
               }}
             >
               <UserRow
-                name={`${user.firstName} ${user.lastName}`}
+                name={user.name}
                 userId={user.userId}
-                avatar={user.avatar}
                 ring
+                avatar={user.avatar}
               />
               <Box sx={{ mx: 2 }}>
                 <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -263,7 +258,7 @@ export default function EditPostModal(props) {
                     // margin="normal"
                     fullWidth
                     id="post-title"
-                    placeholder={title}
+                    label="Title…"
                     name="title"
                     autoFocus
                     size="small"
@@ -306,7 +301,7 @@ export default function EditPostModal(props) {
                   id="submit"
                   type="submit"
                   variant="contained"
-                  disabled={!submit}
+                  // disabled={!submit}
                   onClick={handleSubmit}
                   sx={{ mt: 2, px: 5 }}
                 >

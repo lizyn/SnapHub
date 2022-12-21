@@ -33,7 +33,8 @@ function Feed(props) {
     handleHidePost: PropTypes.func.isRequired,
     inPostDetail: PropTypes.bool,
     curUserName: PropTypes.string,
-    curUserAvatar: PropTypes.string
+    curUserAvatar: PropTypes.string,
+    handleEditPost: PropTypes.func.isRequired
   };
 
   Feed.defaultProps = {
@@ -62,7 +63,8 @@ function Feed(props) {
     curUserId,
     inPostDetail,
     curUserName,
-    curUserAvatar
+    curUserAvatar,
+    handleEditPost
   } = props;
 
   const [anchorEl, setAnchorEl] = useState(false);
@@ -141,6 +143,7 @@ function Feed(props) {
           curUserId={curUserId}
           curUserName={curUserName}
           curUserAvatar={curUserAvatar}
+          handleEditPost={handleEditPost}
         />
       </div>
       <div>

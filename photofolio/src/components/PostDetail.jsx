@@ -58,7 +58,8 @@ function PostDetail(props) {
     handleLikeClickFeed: PropTypes.func.isRequired,
     curUserId: PropTypes.string.isRequired,
     curUserName: PropTypes.string,
-    curUserAvatar: PropTypes.string
+    curUserAvatar: PropTypes.string,
+    handleEditPost: PropTypes.func
   };
 
   PostDetail.defaultProps = {
@@ -68,7 +69,8 @@ function PostDetail(props) {
     numberLikes: 0,
     curUserName: '',
     curUserAvatar: '/',
-    liked: false
+    liked: false,
+    handleEditPost: () => {}
   };
 
   const {
@@ -88,7 +90,8 @@ function PostDetail(props) {
     handleLikeClickFeed,
     curUserId,
     curUserName,
-    curUserAvatar
+    curUserAvatar,
+    handleEditPost
   } = props;
 
   const [comments, setComments] = useState([]);
@@ -239,6 +242,7 @@ function PostDetail(props) {
         curUserId={curUserId}
         curUserName={curUserName}
         curUserAvatar={curUserAvatar}
+        handleEditPost={handleEditPost}
       />
       <Modal
         open={open || false}

@@ -39,6 +39,7 @@ function ProfilePage(props) {
 
   const [photos, setPhotos] = useState([]);
   const [user, setUser] = useState({});
+  const [edited, setEdited] = useState(false);
   // const [isFollowing, setIsFollowing] = useState(false);
   // const currentUserId = '63899e8d4bd2e0bd159d0e10';
 
@@ -72,7 +73,7 @@ function ProfilePage(props) {
     fetchPhotoData();
     // followStatus();
     // console.log(userId);
-  }, [userId]);
+  }, [userId, edited]);
 
   // const orange = createTheme({
   //   status: {
@@ -94,6 +95,11 @@ function ProfilePage(props) {
   const handlePostChange = (postId) => {
     const updatedPosts = photos.filter((x) => x._id !== postId);
     setPhotos(updatedPosts);
+  };
+
+  const handleEditPost = () => {
+    console.log('editedpost');
+    setEdited((x) => !x);
   };
 
   const handleHidePost = (postId) => {
@@ -179,7 +185,7 @@ function ProfilePage(props) {
               sx={{
                 width: 800,
                 height: 500,
-                overflow: 'clip'
+                overflow: 'scroll'
               }}
               cols={3}
               rowHeight={164}
@@ -209,6 +215,8 @@ function ProfilePage(props) {
                     curUserId={user._id}
                     handleHidePost={handleHidePost}
                     inPostDetail
+                    handleEditPost={handleEditPost}
+                    edited={edited}
                   >
                     <img
                       src={`${item.photo}?w=164&h=164&fit=crop&auto=format`}
