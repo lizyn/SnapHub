@@ -71,7 +71,11 @@ function FeedList(props) {
       if (user && post.photo) {
         feeds.push(
           <Feed
-            author={`${user.firstName} ${user.lastName}`}
+            author={
+              user.firstName && user.lastName
+                ? `${user.firstName} ${user.lastName}`
+                : user.username || 'User 42'
+            }
             img={post.photo}
             key={post._id}
             userId={user._id}
