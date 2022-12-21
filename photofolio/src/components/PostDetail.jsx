@@ -50,7 +50,6 @@ function PostDetail(props) {
     img: PropTypes.string,
     avatar: PropTypes.string,
     numberLikes: PropTypes.number,
-    // likedBy: PropTypes.arrayOf(PropTypes.string).isRequired,
     postId: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
     handlePostChange: PropTypes.func.isRequired,
