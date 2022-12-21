@@ -1,16 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import CircularProgress from '@mui/material/CircularProgress';
+
+// import CircularProgress from '@mui/material/CircularProgress';
 import Feed from './Feed';
 import { fetchFeeds, fetchUsers } from '../api/axios';
+import FeedInfinite from './FeedInfinite';
 
 function FeedList() {
   const [posts, setPosts] = useState([]);
   // const [, updateState] = React.useState();
   const [users, setUsers] = useState([]);
-  // const [hasMore, setHasMore] = useState(true);
+
   // const [items, setItems] = useState([]);
+  // let items = [];
   const userId = '63899e8d4bd2e0bd159d0e10';
 
   const handlePostChange = (postId) => {
@@ -35,6 +37,10 @@ function FeedList() {
       fetchUserData();
     }, 3000);
   }, []);
+
+  // useEffect(() => {
+  //   window.alert(1);
+  // }, [posts.length]);
 
   const feedsList = posts;
   const userList = users;
@@ -67,74 +73,22 @@ function FeedList() {
     feeds.sort((a, b) => b.props.msAge - a.props.msAge);
     return feeds;
   };
-  let feeds = <CircularProgress />;
+  // let feeds = <CircularProgress />;
 
-  feeds = populateFeeds();
-  if (feeds.length === 0) {
-    feeds = (
-      <h3>
-        Seems that you do not have any feeds. Go add users you like to your
-        follow list!
-      </h3>
-    );
-  } else {
-    // setItems(feeds.slice(0, 1));
-    // setItems([]);
-  }
-
-  // const fetchMoreData = () => {
-  //   console.log(feeds.length);
-  //   console.log(posts.length);
-  //   if (feeds.length >= posts.length) {
-  //     setHasMore(hasMore);
-  //   }
-  // };
+  const feeds = populateFeeds();
+  // if (feeds.length === 0) {
+  //   feeds = (
+  //     <h3>
+  //       Seems that you do not have any feeds. Go add users you like to your
+  //       follow list!
+  //     </h3>
+  //   );
+  // } else {
+  //   items = feeds.slice(0, num);
+  // }
 
   // return <div className="feedlist-main">{feeds}</div>;
-  return (
-    <div
-      id="scrollableDiv"
-      style={{
-        height: '70vh',
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
-      {/* Put the scroll bar always on the bottom */}
-      <InfiniteScroll
-        dataLength={1}
-        // eslint-disable-next-line react/jsx-no-bind
-        // next={fetchMoreData}
-        next={() => {}}
-        style={{ display: 'flex', flexDirection: 'column' }} // To put endMessage and loader to the top.
-        inverse
-        hasMore={false}
-        loader={<h4>Loading...</h4>}
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Yay! You have seen it all</b>
-          </p>
-        }
-        // below props only if you need pull down functionality
-        // refreshFunction={React.useCallback(() => updateState({}), [])}
-        // refreshFunction={() => {
-        //   console.log(`resfresh${new Date()}`);
-        // }}
-        // pullDownToRefresh
-        // // pullDownToRefreshThreshold={50}
-        // pullDownToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-        // }
-        // releaseToRefreshContent={
-        //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-        // }
-        scrollableTarget="scrollableDiv"
-      >
-        {feeds}
-      </InfiniteScroll>
-    </div>
-  );
+  return <FeedInfinite feeds={feeds} />;
 }
 
 export default FeedList;

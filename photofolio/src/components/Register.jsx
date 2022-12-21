@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useRef, useState, useEffect } from 'react';
 import {
   faCheck,
@@ -52,8 +54,8 @@ function Register() {
   }, [user, pwd, fstName, lstName, matchPwd]);
 
   const toLogin = () => {
-    window.location.replace("/login");
-  }
+    window.location.replace('/login');
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,7 +66,12 @@ function Register() {
       return;
     }
     try {
-      const newUser = { username: user, password: pwd, firstname: fstName, lastname: lstName };
+      const newUser = {
+        username: user,
+        password: pwd,
+        firstname: fstName,
+        lastname: lstName
+      };
       const response = await register(newUser);
       console.log(JSON.stringify(response));
       setSuccess(true);
@@ -79,9 +86,7 @@ function Register() {
         {success ? (
           <section>
             <h1>Success!</h1>
-            <div onClick={toLogin}>
-              Login
-            </div>
+            <div onClick={toLogin}>Login</div>
           </section>
         ) : (
           <section>
@@ -131,7 +136,7 @@ function Register() {
                 <br />
                 Letters, numbers, underscores, hyphens allowed.
               </p>
-              
+
               <label htmlFor="firstname">
                 Firstname:
                 <input
