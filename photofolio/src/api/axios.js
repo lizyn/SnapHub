@@ -26,10 +26,10 @@ const reAuthenticate = (status) => {
 };
 
 export default axios.create({
-  baseURL: 'http://3.235.186.182:8080'
+  baseURL: 'http://localhost:8080'
 });
 
-const baseURL = 'http://3.235.186.182:8080';
+const baseURL = 'http://localhost:8080';
 export const fetchFeeds = async (userId) => {
   try {
     setHeaders();
