@@ -54,7 +54,7 @@ function FeedInfinite(props) {
 
   const fetchMoreData = () => {
     if (items.length >= feeds.length) {
-      console.log(1);
+      // console.log(1);
       setHasMore(false);
       return;
     }
