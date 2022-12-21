@@ -227,7 +227,7 @@ function PostDetail(props) {
 
   const handleCommentSubmit = async () => {
     const comment = convertMentionInComment(commentInput);
-    await createComment('63899e8d4bd2e0bd159d0e10', postId, comment);
+    await createComment(curUserId, postId, comment);
     setCommentSubmit(comment);
     setCommentInput('');
   };
