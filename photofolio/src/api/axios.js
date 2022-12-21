@@ -4,7 +4,9 @@ import axios from 'axios';
 const setHeaders = () => {
   axios.defaults.headers.common.Authorization =
     // eslint-disable-next-line no-undef, prettier/prettier
-    sessionStorage.getItem('app-token') !== null ? sessionStorage.getItem('app-token')
+    sessionStorage.getItem('app-token') !== null
+      ? // eslint-disable-next-line no-undef
+        sessionStorage.getItem('app-token')
       : null;
 };
 

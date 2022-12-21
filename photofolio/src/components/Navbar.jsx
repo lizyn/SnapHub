@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -15,6 +17,7 @@ function Navbar(props) {
   const handleLogout = () => {
     // eslint-disable-next-line no-undef
     sessionStorage.removeItem('app-token');
+
     // eslint-disable-next-line no-undef
     window.location.replace('/login');
   };
