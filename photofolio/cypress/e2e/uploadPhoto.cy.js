@@ -1,6 +1,6 @@
 describe('upload photo e2e test', () => {
     it('upload a photo', () => {
-        cy.visit("http://3.235.186.182:3000/");
+        cy.visit("http://localhost:3000/");
         
         cy.get('#username').type('Emily').should('have.value', 'Emily');
         cy.get('#password').type('ASDFasdf1234!').should('have.value', 'ASDFasdf1234!');
