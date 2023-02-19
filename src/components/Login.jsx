@@ -63,7 +63,7 @@ function Login() {
           >
             {errMsg}
           </p>
-          <p className="welcome-text">Welcome to photofolio!</p>
+          <p className="welcome-text">Welcome to SnapHub!</p>
           <p className="signin-text">Sign In</p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">

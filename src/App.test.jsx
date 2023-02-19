@@ -45,7 +45,7 @@ test('login test', async () => {
       <Login />
     </MemoryRouter>
   );
-  const checkTitle = getByText('Welcome to photofolio!');
+  const checkTitle = getByText('Welcome to SnapHub!');
   expect(checkTitle).toBeInTheDocument();
   const checkUsername = getByText('Username:');
   expect(checkUsername).toBeInTheDocument();
